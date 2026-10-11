@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#ff5a1f"><title>SuperDeals Delivery | Super Deals. Super Fast.</title>
+<style>
+:root{--bg:#f6f6f8;--card:#fff;--tx:#1a1a22;--mu:#7b7b8a;--pr:#ff5a1f;--pr2:#ffefe8;--ok:#14a76c;--bd:#ececf1;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#121216;--card:#1c1c22;--tx:#f2f2f5;--mu:#9a9aa8;--pr2:#2e1d15;--bd:#2a2a32}}
+:root[data-theme=dark]{--bg:#121216;--card:#1c1c22;--tx:#f2f2f5;--mu:#9a9aa8;--pr2:#2e1d15;--bd:#2a2a32}
+*{box-sizing:border-box;margin:0;font-family:system-ui,-apple-system,"Segoe UI",sans-serif}
+html,body{height:100%}body{background:var(--bg);color:var(--tx);display:flex;flex-direction:column;align-items:center}
+.roles{display:flex;gap:6px;padding:10px;background:var(--card);border-radius:99px;margin:10px;border:1px solid var(--bd)}
+.roles button{border:0;background:none;color:var(--mu);padding:8px 16px;border-radius:99px;font-weight:600;cursor:pointer}
+.roles .on{background:var(--pr);color:#fff}
+.phone{flex:1;width:100%;max-width:420px;min-height:0;background:var(--bg);display:flex;flex-direction:column;border:1px solid var(--bd);border-radius:28px;overflow:hidden;margin-bottom:10px;position:relative}
+#app{flex:1;overflow-y:auto;padding:16px 16px 24px}
+nav{display:flex;background:var(--card);border-top:1px solid var(--bd)}
+nav button{flex:1;border:0;background:none;color:var(--mu);padding:10px 0;font-size:11px;cursor:pointer}
+nav button b{display:block;font-size:20px;font-weight:400}nav .on{color:var(--pr);font-weight:700}
+h2{font-size:20px;margin:14px 0 10px}h3{font-size:15px}
+.mu{color:var(--mu);font-size:13px}.row{display:flex;align-items:center;gap:10px}.sp{justify-content:space-between}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:12px;margin-bottom:10px}
+.search{width:100%;padding:13px 16px;border-radius:14px;border:1px solid var(--bd);background:var(--card);color:var(--tx);margin:10px 0}
+.cats{display:flex;gap:10px;overflow-x:auto;padding-bottom:4px}
+.cat{flex:0 0 auto;text-align:center;font-size:12px}.cat i{display:grid;place-items:center;width:58px;height:58px;border-radius:18px;background:var(--pr2);font-size:28px;font-style:normal;margin-bottom:4px}
+.promo{background:linear-gradient(135deg,#ff5a1f,#ff9a3c);color:#fff;border-radius:20px;padding:18px;margin:6px 0}
+.promo p{font-size:13px;opacity:.9;margin-top:4px}.promo button{margin-top:10px;background:#fff;color:#ff5a1f}
+.hero{font-size:44px;width:64px;height:64px;display:grid;place-items:center;background:var(--pr2);border-radius:16px}
+.btn,.promo button,.chip{border:0;border-radius:12px;font-weight:700;padding:11px 16px;cursor:pointer}
+.btn{background:var(--pr);color:#fff;width:100%;padding:14px;font-size:15px}.btn.g{background:var(--ok)}.btn.o{background:var(--pr2);color:var(--pr)}
+.add{background:var(--pr2);color:var(--pr);border:0;width:34px;height:34px;border-radius:50%;font-size:20px;cursor:pointer}
+.chip{background:var(--card);border:1px solid var(--bd);color:var(--tx);padding:8px 14px;margin:0 6px 6px 0;font-size:13px}.chip.on{border-color:var(--pr);color:var(--pr);background:var(--pr2)}
+.tag{font-size:11px;background:var(--pr2);color:var(--pr);padding:3px 8px;border-radius:99px;font-weight:700}
+.sw{width:46px;height:26px;border-radius:99px;background:var(--bd);position:relative;cursor:pointer;flex:none}.sw:after{content:"";position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#fff;transition:.2s}.sw.on{background:var(--ok)}.sw.on:after{left:23px}
+.steps{margin:6px 0}.step{display:flex;gap:12px;padding:8px 0;color:var(--mu)}.step i{width:26px;height:26px;border-radius:50%;background:var(--bd);display:grid;place-items:center;font-size:12px;font-style:normal;flex:none}.step.d{color:var(--tx)}.step.d i{background:var(--ok);color:#fff}
+.map{height:150px;border-radius:16px;background:repeating-linear-gradient(45deg,var(--pr2),var(--pr2) 12px,var(--bd) 12px,var(--bd) 13px);position:relative;overflow:hidden;margin-bottom:10px}
+.map span{position:absolute;font-size:26px;transition:all 1s}
+.pin{font-size:30px;letter-spacing:10px;font-weight:800;text-align:center;color:var(--pr)}
+.inp{width:100%;padding:13px;border-radius:12px;border:1px solid var(--bd);background:var(--card);color:var(--tx);text-align:center;font-size:20px;margin:8px 0}
+.stat{flex:1;text-align:center}.stat b{display:block;font-size:20px}
+.toast{position:absolute;left:16px;right:16px;bottom:76px;background:#1a1a22;color:#fff;padding:12px;border-radius:12px;font-size:14px;text-align:center}
+.brand,#side{display:none}.brand small{display:block;font-size:11px;font-weight:600;color:var(--mu)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:0 12px}
+@media(max-width:520px){.phone{border-radius:0;border:0;margin:0}}
+@media(min-width:760px){
+.phone{max-width:1280px;flex-direction:row;border-radius:20px}
+nav{order:-1;flex-direction:column;width:210px;flex:none;border-top:0;border-right:1px solid var(--bd);padding:14px 10px;gap:4px;background:var(--card)}
+nav button{display:flex;align-items:center;gap:12px;text-align:left;padding:12px 14px;font-size:15px;border-radius:12px}
+nav button b{display:inline;font-size:20px}
+nav .on{background:var(--pr2)}
+.brand{display:block;font-size:20px;font-weight:800;color:var(--pr);padding:8px 14px 16px}
+#app{padding:24px 32px}
+.cats{flex-wrap:wrap}.cat i{width:72px;height:72px}
+.promo{padding:28px}.mob{display:none}
+}
+@media(min-width:1100px){#side{display:block;width:320px;flex:none;border-left:1px solid var(--bd);padding:24px;background:var(--card);overflow-y:auto}}
+#side:empty{display:none!important}
+.svc{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:12px 0}.svc div{background:var(--pr2);border-radius:16px;padding:12px 4px;text-align:center;font-size:12px;font-weight:600;cursor:pointer}.svc i{display:block;font-size:26px;font-style:normal;margin-bottom:4px}
+.hero{background-size:cover;background-position:center;flex:none}
+.banner{height:130px;border-radius:18px;background:linear-gradient(135deg,#ff5a1f,#ff9a3c) center/cover;display:grid;place-items:center;font-size:56px;margin-bottom:12px}
+.wb{position:sticky;top:0;z-index:5;background:var(--bg);display:flex;align-items:center;justify-content:space-between;margin:calc(var(--pt)*-1) calc(var(--pt)*-1) 10px;padding:12px var(--pt);border-bottom:1px solid var(--bd)}
+.av{width:40px;height:40px;border-radius:50%;background:var(--pr);color:#fff;display:grid;place-items:center;font-weight:800}
+#app{--pt:16px}@media(min-width:760px){#app{--pt:24px}}
+#ld{position:absolute;inset:0;z-index:50;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:20px}
+.ring{position:relative;width:240px;height:240px;border:2px dashed var(--bd);border-radius:50%;margin:30px 0}
+.orb{position:absolute;inset:0;animation:sp 3.5s linear forwards}.orb i{position:absolute;left:50%;top:0;transform:translate(-50%,-50%);font-style:normal;font-size:24px}
+@keyframes sp{to{transform:rotate(360deg)}}
+.nd{position:absolute;transform:translate(-50%,-50%);font-size:34px;line-height:1;display:flex;flex-direction:column;align-items:center;background:var(--bg);padding:4px;border-radius:14px;animation:pl 3.5s infinite}
+.nd small{font-size:11px;font-weight:700;color:var(--mu);margin-top:3px}
+.n1{left:50%;top:0}.n2{left:calc(50% + 104px);top:calc(50% + 60px);animation-delay:.75s}.n3{left:calc(50% - 104px);top:calc(50% + 60px);animation-delay:1.9s}
+.alt{position:relative;width:44px;height:38px}.alt span{position:absolute;inset:0;display:grid;place-items:center;animation:alt .9s steps(1) infinite}.alt span+span{animation-delay:-.45s}@keyframes alt{0%{opacity:1}50%{opacity:0}}
+.lg{font-size:64px;line-height:1;animation:rk 1.2s ease-in-out infinite}@keyframes rk{0%,100%{transform:rotate(-20deg)}50%{transform:rotate(20deg)}}
+@keyframes pl{0%,40%,100%{scale:1}12%{scale:1.3}}
+@keyframes pop{0%,45%,100%{opacity:.15;transform:scale(.6)}65%,90%{opacity:1;transform:scale(1.1)}}
+.ctr{position:absolute;inset:0;display:grid;place-items:center;font-weight:800;color:var(--pr);line-height:1.15;font-size:20px}
+.pct{font-size:24px;font-weight:800;color:var(--pr);margin-top:4px}.pbar{width:200px;height:6px;border-radius:99px;background:var(--bd);margin:8px auto 0;overflow:hidden}.pbar i{display:block;height:100%;width:1%;background:var(--pr);border-radius:99px}
+.dn{font-size:80px;animation:dn .5s ease-out}@keyframes dn{from{transform:scale(.2);opacity:0}}
+.wb{display:block;background:linear-gradient(160deg,#9a3412,#5a1d07);color:#fff;padding:16px var(--pt) 14px;border:0;border-radius:0 0 22px 22px}
+.wb .logo{font-size:22px}.wb .logo span{color:#ffc83d}.wb .gr{font-size:26px;font-style:italic;font-weight:800;margin-top:10px}.wb .gs{color:rgba(255,255,255,.7);font-size:13px;margin:2px 0 10px}
+.bell{position:relative;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.12);display:grid;place-items:center;cursor:pointer}.bell i{position:absolute;top:8px;right:9px;width:8px;height:8px;border-radius:50%;background:#ff4d4d}
+.sbox{width:100%;padding:13px 16px;border-radius:14px;border:0;font-size:14px;color:#1a1a22}
+.srv{margin-top:10px;text-align:center;background:rgba(255,255,255,.1);border-radius:14px;padding:8px}.srv small{display:block;font-size:10px;letter-spacing:1px;color:rgba(255,255,255,.7)}.srv b{color:#ffc83d}
+.vg{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}@media(min-width:760px){.vg{grid-template-columns:repeat(auto-fill,minmax(200px,1fr))}}
+.vc{background:var(--card);border:1px solid var(--bd);border-radius:18px;overflow:hidden;cursor:pointer}
+.vi{height:120px;position:relative;background:linear-gradient(135deg,#ff5a1f,#ff9a3c) center/cover;display:grid;place-items:center}.vi em{font-style:normal;font-size:46px}
+.t2,.rt{position:absolute;font-size:11px;font-weight:700;padding:4px 9px;border-radius:99px}.t2{top:8px;left:8px;background:rgba(0,0,0,.55);color:#fff}.rt{bottom:8px;right:8px;background:#fff;color:#1a1a22}
+.cl{position:absolute;background:#fff;color:#1a1a22;font-size:12px;font-weight:600;padding:6px 12px;border-radius:99px}.vi:has(.cl){filter:grayscale(.8)}
+.vn{padding:10px 12px}.vn b{font-size:14px}
+.vi2{width:44px;height:44px;border-radius:12px;background:var(--pr2);display:grid;place-items:center;font-style:normal;font-size:22px}
+.bdg{font-size:11px;font-weight:700;padding:5px 10px;border-radius:99px;background:var(--pr2);color:var(--pr)}.bdg.ok{background:#d9f5e6;color:#0b6b42}.bdg.bad{background:#fde3e1;color:#b3261e}
+.pill{font-size:12px;background:var(--bd);padding:5px 10px;border-radius:99px;text-transform:uppercase}
+.rr{margin-top:10px;background:var(--pr2);color:var(--pr);font-weight:600;font-size:14px;padding:10px;border-radius:10px}
+.fq{padding:12px 0;border-bottom:1px solid var(--bd);cursor:pointer}.fq:last-child{border:0}
+.cb{position:sticky;bottom:6px;box-shadow:0 6px 20px rgba(0,0,0,.25);margin-top:10px}
+@media(max-width:759px){
+nav{background:linear-gradient(90deg,#7c2d12,#5a1d07);border:0;position:relative;z-index:6;padding-top:6px}
+nav button{color:rgba(255,255,255,.7);font-size:11px}nav .on{color:#ffc83d}
+nav button b{margin:0 auto 2px}
+nav .on b{background:#ffc83d;color:#1a1a22;width:54px;height:54px;border-radius:50%;display:grid;place-items:center;margin:-30px auto 2px;box-shadow:0 4px 14px rgba(0,0,0,.3)}}
+.wb>*{position:relative;z-index:1}.wb>.wm{position:absolute;z-index:0;inset:0;border-radius:inherit;background:center/cover no-repeat;opacity:.2;pointer-events:none}
+#app>h2:before{content:"";width:4px;height:20px;border-radius:4px;background:var(--pr);flex:none}#app>h2{display:flex;align-items:center;gap:10px}
+.sub{margin:-6px 0 12px 14px}h3.sec{margin:0 0 8px}
+.hm{display:grid;gap:12px;margin:12px 0 4px}.hm .promo{margin:0}.hm .svc{margin:0}.g2{display:grid;grid-template-columns:1fr;gap:0 16px}
+@media(min-width:760px){body{padding:0 14px}.phone{max-width:2000px}}
+@media(min-width:1000px){.wbm{display:flex;align-items:flex-end;justify-content:space-between;gap:24px}.hs{width:min(560px,48%)}.hm{grid-template-columns:1.4fr 1fr}.g2{grid-template-columns:1fr 1fr}#app>.inp,#app>.btn,#app>select{max-width:640px;display:block}.hm .svc{grid-template-columns:repeat(4,1fr)}}
+@media(min-width:1700px){.phone,.roles{zoom:1.15}}
+@media(min-width:2200px){.phone,.roles{zoom:1.4}}
+@media(min-width:3000px){.phone,.roles{zoom:1.8}}
+.nb{font-style:normal;background:#ff4d4d;color:#fff;font-size:10px;font-weight:700;padding:1px 6px;border-radius:99px;margin-left:4px}
+.main{flex:1;min-width:0;min-height:0;display:flex;flex-direction:column}#top:empty{display:none}
+.wb{position:relative!important;top:auto!important;margin:0!important;padding:16px 16px 14px!important;flex:none}
+@media(min-width:760px){.wb{padding:18px 32px 16px!important}}
+[onclick],.cat,.cat i,.svc div,label.chip{cursor:pointer}
+.main{position:relative;background:var(--bg)}.main.bg::before{content:"";position:absolute;inset:0;background:var(--bgimg) center/cover no-repeat;opacity:.22;pointer-events:none;z-index:0}.main>*{position:relative;z-index:1}
+.stt{font-size:12px;font-weight:700;margin-top:4px}.stt.on{color:#14a76c}.stt.off{color:#b3261e}
+.lbg{position:absolute;inset:0;overflow:hidden;z-index:0}#ld>*:not(.lbg){position:relative;z-index:1}
+.lp{position:absolute;inset:0;background:center/cover no-repeat;opacity:0;transition:opacity 1s ease}.lp.on{opacity:.3}
+.lp.sc{display:grid;place-items:center;font-size:150px;background:linear-gradient(135deg,var(--pr2),var(--bg))}
+.lcap{font-weight:600;max-width:300px;margin-top:10px;min-height:44px;animation:fi .8s}@keyframes fi{from{opacity:0}}
+.roles:empty{display:none}
+</style></head><body>
+<div class="roles" id="roles"></div>
+<div class="phone"><div class="main"><div id="top"></div><div id="app"></div></div><nav id="nav"></nav><aside id="side"></aside></div>
+<script>
+const R=[{n:"Men's Cook",e:"🍛",c:"Local",t:"20-30",r:4.8,town:"Tarkwa-Nsuaem",m:[["Jollof & Chicken",35,"🍗"],["Waakye Special",30,"🍚"],["Banku & Tilapia",55,"🐟"],["Fried Rice",35,"🍤"]]},
+{n:"Debby's Bakery",e:"🍰",c:"Bakery",t:"25-35",r:4.9,town:"Tarkwa-Nsuaem",m:[["Meat Pie",10,"🥧"],["Birthday Cake",180,"🎂"],["Doughnuts (4)",20,"🍩"],["Sugar Bread",12,"🍞"]]},
+{n:"JoshJenny Ventures",e:"🛒",c:"Groceries",t:"30-40",r:4.6,town:"Tarkwa-Nsuaem",m:[["Rice 5kg",85,"🍚"],["Cooking Oil 1L",32,"🛢️"],["Bag of Water",9,"💧"],["Indomie Carton",110,"🍜"]]},
+{n:"Big Mummy's Fashion Home",e:"👗",c:"Fashion",t:"30-45",r:4.7,town:"Tarkwa-Nsuaem",m:[["Ankara Dress",150,"👗"],["Kaba & Slit",220,"👘"],["Men's Shirt",90,"👔"]]},
+{n:"Mogya's Collection",e:"👜",c:"Fashion",t:"30-45",r:4.5,town:"Tarkwa-Nsuaem",m:[["Handbag",120,"👜"],["Sandals",80,"👡"],["Wristwatch",95,"⌚"]]},
+{n:"Evannex Pharmacy",e:"💊",c:"Pharmacy",t:"15-25",r:4.9,town:"Tarkwa-Nsuaem",m:[["Paracetamol",8,"💊"],["Vitamin C",20,"🍊"],["ORS Sachets",6,"🧂"],["First Aid Kit",45,"🩹"]]},
+{n:"Seedjust Supermarket",e:"🛒",c:"Groceries",t:"30-40",r:4.7,town:"Tarkwa-Nsuaem",m:[["Tin Tomato",12,"🍅"],["Milo Tin",45,"☕"],["Sugar 1kg",20,"🧂"],["Frytol Oil 3L",95,"🛢️"]]},
+{n:"Global Palace Eatery",e:"🍽️",c:"Local",t:"25-40",r:4.6,town:"Tarkwa-Nsuaem",m:[["Fried Rice & Chicken",40,"🍗"],["Banku & Okro Stew",35,"🥣"],["Fufu & Light Soup",45,"🍲"],["Jollof & Fish",40,"🐟"]]},
+{n:"Kwesiba's Fast Food",e:"🍔",c:"Fast food",t:"20-30",r:4.5,town:"Tarkwa-Nsuaem",m:[["Chicken & Chips",45,"🍟"],["Beef Burger",35,"🍔"],["Shawarma",30,"🌯"],["Sausage Roll",12,"🌭"]]},
+{n:"Maame Esi's Indomie",e:"🍜",c:"Fast food",t:"15-25",r:4.8,town:"Tarkwa-Nsuaem",m:[["Indomie & Egg",20,"🍜"],["Special Indomie",30,"🍳"],["Indomie & Sausage",28,"🌭"],["Extra Egg",5,"🥚"]]}];
+const XD={"Men's Cook":[["Sausage",5],["Beef",8],["Wele",6],["Egg",4],["Extra Chicken",15]],"Debby's Bakery":[["Extra Icing",10],["Candles",5]],"Big Mummy's Fashion Home":[["Gift Wrap",10]],"Mogya's Collection":[["Gift Wrap",10]],"Global Palace Eatery":[["Sausage",5],["Beef",8],["Wele",6],["Egg",4]],"Kwesiba's Fast Food":[["Extra Cheese",5],["Sausage",5],["Egg",4],["Extra Sauce",2]],"Maame Esi's Indomie":[["Egg",4],["Sausage",5],["Beef",8],["Corned Beef",8]]};
+R.forEach(r=>r.x=(XD[r.n]||[]).map(a=>a.slice()));
+const Z=[{n:"Tarkwa-Nsuaem",f:10},{n:"Nkwanta",f:10},{n:"Kyekyewere",f:10},{n:"Essaman",f:10},{n:"Kedadwen",f:10}];
+const AREAS=["Attakrom","Transformer","Old Roman Catholic Church","Top Station","Sunrise","Rainbow","Church of Christ","Nima","Police Headquarters","Sakora Park","Maranatha Model School","Sofo Kwaku","After Bridge"];
+const DT=["Opposite","Adjacent to","Behind","Near","House No."];
+const EM={Local:"🍛","Fast food":"🍔",Bakery:"🍰",Groceries:"🛒",Fashion:"👗",Pharmacy:"💊"};
+const CATS=[["🍛","Local"],["🍔","Fast food"],["🍰","Bakery"],["👗","Fashion"],["🛒","Groceries"],["💊","Pharmacy"]];
+const S={sr:"c",want:"",sql:null,sqlAsked:0,dbmode:"auto",dbact:"fs",fbEmail:"",rl:"c",vsn:"",vcat:"Local",vtn:"Tarkwa-Nsuaem",rvh:"Motorbike",rpl:"",rar:"",ren:"",rep:"",rit:"Ghana Card",rin:"",ap:0,rj:{},noAdmin:false,admins:[],nph:"",cpw:"",reqs:[],users:[],myReq:null,isAdmin:false,rn:"",bgC:"",bgV:"",bgR:"",idle:10,ldr:["","","",""],anns:[],at:"Delay",am2:"",ar:"",ad:24,hdr:"",bg:"",ops:{on:true,days:[true,true,true,true,true,true,true],from:"07:00",to:"21:00",off:[],msg:""},cp:"",np:"",np2:"",am:"up",le:"",lw:"",lw2:"",sh:0,accts:[],pe:undefined,vf:"all",orders:[],oid:1,cid:0,logo:"",nt:0,sc:0,vi:0,to:0,help:0,fs:"",fo:{},sp:"",cx:"",cr:"",ct:"",area:"",other:"",dt:"Opposite",dtext:"",user:null,hist:[],ln:"",lp:"",notes:[],rt:"Package",rp:"",rd:"",zone:0,role:"c",tab:"home",rest:null,cart:[],filter:"",pay:"Cash on delivery",payCfg:[{k:"MTN MoMo",num:"",name:""},{k:"Telecel Cash",num:"",name:""},{k:"AirtelTigo Money",num:"",name:""}],payOpen:0,payRef:null,pf:"",pt:"",pmTmp:null,tip:0,sched:false,pts:120,order:null,online:false,wallet:0,vOpen:true,sales:0,done:0,toast:""};
+const $=s=>document.querySelector(s),gh=n=>"GH₵ "+n.toFixed(2);
+const TABS={c:[["home","🏠","Home"],["track","🛍️","Orders"],["req","🏍️","Pick Up/Errands"],["me","👤","Profile"]],v:[["orders","🧾","Orders"],["menu","🍽️","Menu"],["stats","📊","Stats"]],a:[["requests","📥","Requests"],["users","👥","Users"],["notices","📣","Notices"],["menu","🍽️","Menus"],["setup","⚙️","Setup"]],r:[["jobs","🏍️","Jobs"],["wallet","💰","Wallet"]]};
+const NAMES={c:"Customer",v:"Vendor",r:"Rider",a:"Admin"};
+function go(role,tab){if(role){S.role=role;try{if(role!="a")localStorage.setItem("sc_lr",role)}catch(e){}S.tab=tab||TABS[role][0][0]}else S.tab=tab;S.rest=null;S.to=0;S.help=0;S.nt=0;S.sc=1;S.payOpen=0;S.ap=0;render()}
+let tt;function say(m){S.toast=m;render();clearTimeout(tt);tt=setTimeout(()=>{S.toast="";render()},1800)}
+const esc=t=>String(t).replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;");
+const NOTE=["Order placed","Vendor is preparing your order 👨‍🍳","Your order is ready for pickup","Rider is on the way 🏍️","Your rider has arrived 📍","PIN verified ✅","Delivered. Enjoy! 🎉"];
+const stepsE=["Request placed","Matching a rider","Waiting for rider","Rider on the way","Rider arrived","PIN verified","Completed"];
+function note(m){S.notes.unshift(m);say(m)}
+function sendReq(){if(!canOrder())return say(closedReason());const d=S.rd.trim();if(!d)return say("Describe what you need");if(!addr())return say("Add your area and a landmark or house number");load("Sending your request…",doReq)}
+function doReq(){const d=S.rd.trim(),t=fee()+S.tip;const o={id:newId(),cid:S.uid,cph:S.user.phone,cn:S.user.name,errand:1,at:nowS(),pay:"Cash on delivery",pm:{method:"cod",status:"due"},items:[S.rt+": "+esc(d)+(S.rp.trim()?" (from "+esc(S.rp.trim())+")":"")],r:S.rt+" request",vid:null,zone:Z[S.zone].n,addr:addr(),fee:fee(),tip:S.tip,total:t,st:2,pin:String(1000+Math.floor(Math.random()*9000))};S.orders.push(o);pushOrder(o);S.rd="";S.rp="";go("c","track");S.to=o.id;render();note("Request sent. Finding a rider 🔎")}
+function reqForm(){return `<h2>Send a package or run an errand</h2><p class="mu" style="margin-bottom:8px">A trusted rider handles it for you.</p>${closedBanner()}<div>${["Package","Errand"].map(x=>`<button class="chip ${S.rt==x?"on":""}" onclick="S.rt='${x}';render()">${x=="Package"?"📦":"📝"} ${x}</button>`).join("")}</div><input class="inp" style="text-align:left;font-size:15px" placeholder="${S.rt=="Package"?"Pickup point, e.g. near Tarkwa-Nsuaem market":"Where should the rider go?"}" value="${esc(S.rp)}" oninput="S.rp=this.value"><input class="inp" style="text-align:left;font-size:15px" placeholder="${S.rt=="Package"?"What are you sending?":"What should the rider do or buy?"}" value="${esc(S.rd)}" oninput="S.rd=this.value">${addrForm()}<div class="card row sp"><span>Delivery fee</span><b>${gh(fee())}</b></div><button class="btn" onclick="sendReq()">Request a rider</button>`}
+const hero=r=>r.img?`<div class="hero" style="background-image:url('${r.img}')"></div>`:`<div class="hero">${r.e}</div>`;
+const banner=r=>`<div class="banner" ${r.img?`style="background-image:url('${r.img}')"`:""}>${r.img?"":r.e}</div>`;
+function upImg(i,el){const f=el.files[0];if(!f)return;const fr=new FileReader();fr.onload=()=>{const im=new Image();im.onload=()=>{const k=Math.min(1,640/im.width),c=document.createElement("canvas");c.width=im.width*k;c.height=im.height*k;c.getContext("2d").drawImage(im,0,0,c.width,c.height);R[i].img=c.toDataURL("image/jpeg",.72);load("Updating shop…",()=>{save();render()})};im.src=fr.result};fr.readAsDataURL(f)}
+const normP=p=>{p=p.replace(/\s/g,"");return p.startsWith("+233")?"0"+p.slice(4):p};
+const okE=e=>/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e);
+async function hp(p,salt){try{const b=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(salt+p));return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,"0")).join("")}catch(e){let h=5381;for(const c of salt+p)h=((h<<5)+h+c.charCodeAt(0))|0;return "x"+h}}
+function setAm(m){S.am=m;S.lw=S.lw2="";render()}
+function fbErr(e){const c=(e&&e.code)||"";return c=="auth/email-already-in-use"?"An account with this phone number already exists. Sign in instead.":/invalid-credential|wrong-password|user-not-found/.test(c)?"Wrong phone number or password":c=="auth/too-many-requests"?"Too many attempts. Try again later.":c=="auth/network-request-failed"?"Network problem. Check your connection.":c=="auth/operation-not-allowed"?"Email/Password sign-in isn't enabled in Firebase yet.":c=="permission-denied"?"Not allowed. Your account may not have access to this yet.":c=="auth/requires-recent-login"?"Please sign out, sign in again, then retry.":(e&&e.message)||"Something went wrong"}
+async function login(){if($("#ld"))return;if(!window.FB)return say("Still connecting to the server. Try again in a moment.");
+try{
+if(S.am=="in"){const p=normP(S.lp.trim());if(!/^0\d{9}$/.test(p))return say("Enter the phone number you signed up with");S.want=S.sr!="c"?S.sr:"";if(S.want)setTimeout(()=>{if(S.want){say("You do not have "+NAMES[S.want]+" access yet, so you are signed in as a customer.");S.want=""}},6000);try{await FB.signIn(p,S.lw)}catch(x){S.want="";throw x}return load("Signing you in…",()=>{S.lw="";render()})}
+const n=S.ln.trim(),p=normP(S.lp),e=S.le.trim();
+if(n.length<2)return say("Enter your full name");
+if(!/^0\d{9}$/.test(p))return say("Enter a valid Ghana phone number");
+if(e&&!okE(e))return say("Enter a valid email or leave it blank");
+const rr=roleReq(S.rl);if(rr.err)return say(rr.err);
+if(S.lw.length<6)return say("Password must be at least 6 characters");
+if(S.lw!=S.lw2)return say("Passwords don't match");
+const prof={name:n,phone:p,email:e},uid=await FB.signUp(p,S.lw,prof);S.uid=uid;S.user={...prof,uid};
+if(rr.req){try{await FB.createReq(uid,{...rr.req,name:n,phone:p,status:"pending",signup:true,created:Date.now()})}catch(x){say("Account created, but your application was not sent. Apply again from Profile. ("+fbErr(x)+")")}}
+load(rr.req?"Sending your registration…":"Creating your account…",()=>{S.lw=S.lw2="";render()})
+}catch(err){say(fbErr(err))}}
+const pwF=(ph,k)=>`<input class="inp" style="text-align:left;font-size:15px;margin:0 0 8px" type="${S.sh?"text":"password"}" placeholder="${ph}" value="${esc(S[k])}" oninput="S.${k}=this.value">`;
+function pwCard(){const has=true;return `<div class="card"><p class="mu" style="margin-bottom:8px">${has?"Change password":"Set a password"}</p>${has?pwF("Current password","cp"):""}${pwF("New password (at least 6 characters)","np")}${pwF("Confirm new password","np2")}<label class="mu" style="display:block;margin:0 0 10px"><input type="checkbox" ${S.sh?"checked":""} onchange="S.sh=this.checked;render()"> Show passwords</label><button class="btn o" onclick="changePw()">${has?"Update password":"Set password"}</button></div>`}
+async function changePw(){if($("#ld"))return;
+if(S.np.length<6)return say("New password must be at least 6 characters");
+if(S.np!=S.np2)return say("New passwords don't match");
+if(S.np==S.cp)return say("Choose a different password from the current one");
+try{await FB.changePassword(S.cp,S.np)}catch(e){return say(/invalid-credential|wrong-password/.test(e.code||"")?"Current password is incorrect":fbErr(e))}
+load("Updating your profile…",()=>{S.cp=S.np=S.np2="";render();say("Password updated")})}
+function logout(msg){if($("#ld"))return;load("Signing you out…",()=>{FB.signOutF().then(()=>{if(typeof msg=="string")say(msg)}).catch(()=>{})})}
+async function wipe(){try{await FB.deleteMe()}catch(e){return say(fbErr(e))}S.notes=[];S.cart=[];render()}
+function shareLoc(){try{navigator.geolocation.getCurrentPosition(()=>say("Location shared with your rider"),()=>say("Location blocked. Choose your area instead"))}catch(e){say("Location not supported")}}
+const fld=(ph,k,t)=>`<input class="inp" style="text-align:left;font-size:16px" type="${t||"text"}" placeholder="${ph}" value="${esc(S[k])}" oninput="S.${k}=this.value">`;
+const chipRow=(k,opts)=>`<div style="text-align:left;margin:2px 0 8px">${opts.map(o=>`<button class="chip ${S[k]==o?"on":""}" onclick="S.${k}='${o}';render()">${o}</button>`).join("")}</div>`;
+function roleFields(role){if(role=="v")return `<p class="mu" style="text-align:left;margin:6px 0 4px">Your shop</p>${fld("Shop name","vsn")}${chipRow("vcat",Object.keys(EM))}<select class="search" style="margin:0 0 8px" onchange="S.vtn=this.value">${Z.map(z=>`<option ${S.vtn==z.n?"selected":""}>${esc(z.n)}</option>`).join("")}</select><p class="mu" style="text-align:left;margin-bottom:8px">The admin reviews every shop before it goes live.</p>`;
+if(role=="r")return `<p class="mu" style="text-align:left;margin:6px 0 4px">Your vehicle</p>${chipRow("rvh",["Motorbike","Bicycle","Car","Other"])}${S.rvh=="Bicycle"?"":fld("Vehicle plate number","rpl")}${fld("Area you live in","rar")}<p class="mu" style="text-align:left;margin:6px 0 4px">Emergency contact</p>${fld("Contact's full name","ren")}${fld("Contact's phone number","rep","tel")}<p class="mu" style="text-align:left;margin:6px 0 4px">Identity</p>${chipRow("rit",["Ghana Card","Voter ID","Driving licence","Passport"])}${fld("ID number","rin")}<p class="mu" style="text-align:left;margin-bottom:8px">Riders are vetted by the admin before approval. These details are only visible to the admin.</p>`;return ""}
+function roleReq(role){if(role=="v"){const n=cleanName(S.vsn);if(n.length<2)return{err:"Enter your shop's name"};return{req:{type:"vendor",shopName:n,shopCat:S.vcat,shopTown:S.vtn}}}
+if(role=="r"){if(S.rvh!="Bicycle"&&S.rpl.trim().length<3)return{err:"Enter the vehicle plate number"};if(S.rar.trim().length<2)return{err:"Enter the area you live in"};if(S.ren.trim().length<2)return{err:"Enter your emergency contact's name"};if(!/^0\d{9}$/.test(normP(S.rep)))return{err:"Enter a valid emergency contact phone number"};if(S.rin.trim().length<5)return{err:"Enter your ID number"};return{req:{type:"rider",vehicle:S.rvh,plate:S.rvh=="Bicycle"?"":S.rpl.trim(),area:S.rar.trim(),ecName:S.ren.trim(),ecPhone:normP(S.rep),idType:S.rit,idNo:S.rin.trim()}}}return{req:null}}
+function setSr(k){S.sr=k;S.sc=1;render()}
+function srChips(){return `<p class="mu" style="margin:6px 0">Sign in as</p><div style="margin-bottom:8px">${[["c","🛍️ Customer"],["v","🏪 Vendor"],["r","🏍️ Rider"]].map(([k,l])=>`<button class="chip ${S.sr==k?"on":""}" onclick="setSr('${k}')">${l}</button>`).join("")}</div>`}
+function setRl(k){S.rl=k;S.sc=1;render()}
+function loginView(){const up=S.am!="in",pw=S.sh?"text":"password",roles=[["c","🛍️ Customer"],["v","🏪 Vendor"],["r","🏍️ Rider"]];return `<div style="max-width:420px;margin:30px auto;text-align:center"><div style="font-size:56px">${S.logo?`<img src="${S.logo}" style="height:76px">`:"🛵"}</div><h2>SuperDeals Delivery</h2><p class="mu" style="margin-bottom:12px">Super Deals. Super Fast.</p>${window.FB?"":`<p class="mu">Connecting to server…</p>`}<div style="margin-bottom:8px"><button class="chip ${up?"on":""}" onclick="setAm('up')">Sign up</button><button class="chip ${up?"":"on"}" onclick="setAm('in')">Sign in</button></div>`+(up?`<p class="mu" style="margin:6px 0">I want to register as a</p><div style="margin-bottom:8px">${roles.map(([k,l])=>`<button class="chip ${S.rl==k?"on":""}" onclick="setRl('${k}')">${l}</button>`).join("")}</div>${fld("Full name","ln")}${fld("Phone, e.g. 0241234567","lp","tel")}${fld("Email (optional)","le","email")}${roleFields(S.rl)}`:srChips()+fld("Phone number","lp"))+fld("Password"+(up?" (at least 6 characters)":""),"lw",pw)+(up?fld("Confirm password","lw2",pw):"")+`<label class="mu" style="display:block;text-align:left;margin:2px 0 12px"><input type="checkbox" ${S.sh?"checked":""} onchange="S.sh=this.checked;render()"> Show password</label><button class="btn" onclick="login()">${up?(S.rl=="c"?"Create account":"Submit registration"):"Sign in"}</button><p class="mu" style="margin-top:12px">Riders use your name and phone to reach you. Email is optional.</p></div>`}
+function wb(){const n=S.user.name.split(" ")[0],home=S.role=="c"&&S.tab=="home"&&S.rest==null&&!S.help;return `<div class="wb">${S.hdr?`<div class="wm" style="background-image:url('${S.hdr}')"></div>`:""}<div class="row sp"><b class="logo">Super<span>Deals</span></b><span class="bell" onclick="S.nt=1;S.sc=1;render()">🔔${S.notes.length||annUnseen()?`<i></i>`:""}</span></div><div class="wbm"><div><div class="gr">Welcome, ${esc(n)} 👋</div><p class="gs">${S.role=="c"?"Surf the page, and order what you want it delivered.":NAMES[S.role]+" · "+esc(Z[S.zone].n)}</p></div>`+(home?`<div class="hs"><input class="sbox" id="sq" placeholder="Search vendors, products, or extras…" value="${esc(S.filter)}" oninput="S.filter=this.value;render();const q=$('#sq');q.focus();q.setSelectionRange(99,99)"><div class="srv"><small>PROUDLY SERVING</small><b>${esc(Z[S.zone].n)}</b><small>and beyond</small></div></div>`:"")+`</div></div>`}
+function hist(){return S.hist.length?`<h2>Past orders</h2>`+S.hist.map(h=>`<div class="card"><b>${h.r}</b><p class="mu">${h.items}</p><b>${gh(h.total)}</b></div>`).join(""):""}
+function setZone(v){S.zone=+v;S.area="";render()}
+function addArea(i){const v=$("#za"+i).value.trim();if(!v)return;if(!Z[i].a.some(x=>x.toLowerCase()==v.toLowerCase()))Z[i].a.push(v);load("Updating shop…",()=>{save();render()})}
+function delArea(i,j){Z[i].a.splice(j,1);save();render()}
+function addr(){const z=Z[S.zone],a=S.area=="__o"?S.other.trim():S.area,t=S.dtext.trim();return a&&t?`${S.dt=="House No."?"House No. "+t:S.dt+" "+t}, ${a}, ${z.n}`:""}
+function mapUrl(a){return "https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(a+", Ghana")}
+function addrForm(){const z=Z[S.zone];return `<h3>Delivery location</h3><select class="search" style="margin:6px 0" onchange="setZone(this.value)">${Z.map((q,i)=>`<option value="${i}" ${i==S.zone?"selected":""}>📍 ${esc(q.n)}</option>`).join("")}</select><select class="search" style="margin:0 0 6px" onchange="S.area=this.value;render()"><option value="">Choose your area in ${esc(z.n)}</option>${z.a.map(x=>`<option ${S.area==x?"selected":""}>${esc(x)}</option>`).join("")}<option value="__o" ${S.area=="__o"?"selected":""}>Other (type it)</option></select>`+(S.area=="__o"?`<input class="inp" style="text-align:left;font-size:15px;margin:0 0 6px" placeholder="Type your area" value="${esc(S.other)}" oninput="S.other=this.value">`:"")+`<div>${DT.map(x=>`<button class="chip ${S.dt==x?"on":""}" onclick="S.dt='${x}';render()">${x}</button>`).join("")}</div><input class="inp" style="text-align:left;font-size:15px;margin:0 0 6px" placeholder="${S.dt=="House No."?"House number, e.g. B12":"Building or landmark, e.g. Police Headquarters"}" value="${esc(S.dtext)}" oninput="S.dtext=this.value"><p class="mu" style="margin-bottom:10px">${addr()?`📍 ${esc(addr())} · <a href="${mapUrl(addr())}" target="_blank" rel="noopener" style="color:var(--pr)">Check on Google Maps</a>`:"Pick your area and add a landmark or house number so the rider finds you."}</p>`}
+const LCAP=["Customer orders","Vendor accepts and readies the order for pickup","Rider picks up the order and journeys to the customer's destination","Customer receives the order when the rider arrives"];
+const LSC=["🙋📱","👨‍🍳🏪","🏍️💨","🏠🙌"];
+function load(msg,fn){if($("#ld"))return;const l=document.createElement("div");l.id="ld";l.innerHTML=`<div class="lbg">${[0,1,2,3].map(i=>S.ldr[i]?`<div class="lp" style="background-image:url('${S.ldr[i]}')"></div>`:`<div class="lp sc">${LSC[i]}</div>`).join("")}</div><div class="ring"><div class="orb"><i>📦</i></div><div class="nd n1">🙋<small>Customer</small></div><div class="nd n2">🏪<small>Vendor</small></div><div class="nd n3"><div class="alt"><span>🚚</span><span>🏍️</span></div><small>Rider</small></div><div class="ctr"><div class="lg">${S.logo?`<img src="${S.logo}" style="max-height:90px;max-width:110px">`:"🛵"}</div></div></div><b>${msg}</b><div class="pbar"><i id="pf"></i></div><p class="pct" id="pc">1%</p><p class="lcap" id="lc"></p>`;$(".phone").appendChild(l);let cur=-1;const t0=performance.now(),iv=setInterval(()=>{const q=Math.min(100,Math.max(1,Math.round((performance.now()-t0)/35))),c=$("#pc"),f=$("#pf");if(c)c.textContent=q+"%";if(f)f.style.width=q+"%";const k=Math.min(3,Math.floor((q-1)/25));if(k!==cur){cur=k;l.querySelectorAll(".lp").forEach((e,i)=>e.classList.toggle("on",i===k));const lc=$("#lc");if(lc){lc.textContent=LCAP[k];lc.style.animation="none";void lc.offsetWidth;lc.style.animation=""}}},40);setTimeout(()=>{clearInterval(iv);l.innerHTML=`<div class="dn">✅</div><h2>Done!</h2><p class="mu">Super Deals. Super Fast.</p>`;setTimeout(()=>l.remove(),1300);try{if(fn)fn()}catch(e){console.error(e);say("Something went wrong: "+(e.message||e))}},3800)}
+const CR={c:["Changed my mind","Ordered by mistake","Taking too long","Wrong delivery address","Other"],v:["Item out of stock","Shop is closing","Too many orders","Can't reach customer","Other"]};
+function openCancel(w,id){S.cx=w;S.cid=id;S.cr="";S.ct="";render()}
+function cancelForm(w,id){return `<div class="card"><h3>Why are you cancelling?</h3><div style="margin:8px 0">${CR[w].map((x,j)=>`<button class="chip ${S.cr==x?"on":""}" onclick="S.cr=CR.${w}[${j}];render()">${x}</button>`).join("")}</div>${S.cr=="Other"?`<input class="inp" style="text-align:left;font-size:15px;margin:0 0 8px" placeholder="Tell us the reason" value="${esc(S.ct)}" oninput="S.ct=this.value">`:""}<button class="btn" style="background:#d93025" onclick="doCancel('${w}',${id})">Confirm cancellation</button><button class="btn o" style="margin-top:8px" onclick="S.cx='';render()">Keep order</button></div>`}
+function doCancel(w,id){const o=ord(id),r=S.cr=="Other"?S.ct.trim():S.cr;if(!r)return say("Please give a reason");if(!o||o.st>2)return say("Too late to cancel");S.hist.unshift({r:o.r,items:o.items.join(", "),total:o.total,at:o.at,pay:o.pay,s:7});save();o.st=7;o.x={by:w,reason:esc(r)};pushOrder(o);S.cx="";S.cr="";S.ct="";note((w=="c"?o.r+" order cancelled: ":o.r+" cancelled your order: ")+esc(r))}
+function cancelledView(o){return `<h2>Order cancelled</h2><div class="card"><p class="mu">Cancelled by ${o.x.by=="c"?"you":"the vendor"}</p><b>Reason: ${o.x.reason}</b></div><button class="btn" onclick="S.orders=S.orders.filter(x=>x.id!=${o.id});go('c','track')">Back to my orders</button>`}
+function saveProfile(){const n=(S.pn??S.user.name).trim(),p=normP(S.pp??S.user.phone),e=(S.pe??S.user.email??"").trim();if(n.length<2)return say("Enter your full name");if(p!=S.user.phone)return say("Use the Change phone number card below to change your number");if(e&&!okE(e))return say("Enter a valid email or leave it blank");FB.setUser(S.uid,{name:n,phone:p,email:e}).then(()=>load("Updating your profile…",()=>{S.user={...S.user,name:n,email:e};S.pn=S.pp=S.pe=undefined;render()})).catch(x=>say(fbErr(x)))}
+const nowS=()=>new Date().toLocaleString("en-GB",{day:"numeric",month:"short",hour:"2-digit",minute:"2-digit"});
+const STL=["PLACED","PREPARING","READY","ON THE WAY","ARRIVED","PIN VERIFIED","DELIVERED","CANCELLED"];
+const ttl=o=>o.st==6?"Delivered 🎉":o.st==5?"PIN verified ✅":o.st==4?"Your rider has arrived 📍":"Arriving in "+Math.max(5,35-o.st*8)+" min";
+const vcard=(r,i)=>`<div class="vc" onclick="S.rest=${i};render()"><div class="vi" ${r.img?`style="background-image:url('${r.img}')"`:""}><span class="t2">${r.c}</span>${ceased(r)?`<span class="cl">🔒 Operation ceased</span>`:""}<span class="rt">★ ${r.r.toFixed(1)}</span>${r.img?"":`<em>${r.e}</em>`}</div><div class="vn"><b>${esc(r.n)}</b><p class="mu">📍 ${esc(r.town)}</p><p class="stt ${ceased(r)?"off":"on"}">${ceased(r)?"🔒 Operation ceased":"● In operation"}</p>${r.from&&r.to?`<p class="mu" style="font-size:11px">🕒 ${r.from}–${r.to}</p>`:""}</div></div>`;
+function cartBar(){return S.cart.length?`<button class="btn cb" onclick="go('c','cart')">🛍️ View cart · ${gh(sub())}</button>`:""}
+function ocard(r,items,total,date,pay,st,click){return `<div class="card" ${click?`onclick="${click}" style="cursor:pointer"`:""}><div class="row sp"><div class="row"><i class="vi2">🏪</i><div><b>${esc(r)}</b><p class="mu">${date||""}</p></div></div><span class="bdg ${st==7?"bad":st==6?"ok":""}">${STL[st]}</span></div><p class="mu" style="margin:10px 0">${items}</p><div class="row sp"><span class="pill">${esc(pay||"")}</span><b style="color:var(--pr)">${gh(total)}</b></div>${click?`<div class="rr">🏍️ Track this order ›</div>`:""}</div>`}
+function ordersList(){const L=S.orders.filter(o=>o.st<6&&o.cid===S.uid);return `<h2>My Orders</h2><p class="mu sub">Tap an order to track it live</p>`+'<div class="grid">'+L.map(o=>ocard(o.r,o.items.join(", "),o.total,o.at,o.pay,o.st,`S.to=${o.id};render()`)).join("")+S.hist.map(h=>ocard(h.r,h.items,h.total,h.at,h.pay,h.s??6,"")).join("")+"</div>"+(!L.length&&!S.hist.length?`<p class="mu">No orders yet. Your orders will show here.</p>`:"")}
+const FAQ=[["Orders","🛍️","How do I track my order?",()=>"Open My Orders and tap your active order. You'll see live status updates from the moment the vendor accepts it until it's delivered."],["Orders","🛍️","Can I cancel an order after placing it?",()=>"Yes, with a reason, until a rider has picked it up. Once it's on the way it can't be cancelled."],["Orders","🛍️","What if an item I ordered is unavailable?",()=>"The vendor can cancel with a reason, or contact you to suggest a substitute."],["Delivery","🛵","How is the delivery fee calculated?",()=>"Each town has its own delivery fee. Right now "+Z.map(z=>z.n+" is "+gh(z.f)).join(", ")+". You see it before you pay."],["Delivery","🛵","What areas do you deliver to?",()=>"We deliver in "+Z.map(z=>z.n).join(", ")+". More areas are being added, so check back if yours isn't listed."],["Payments","💵","What payment methods are supported?",()=>"MTN MoMo, Telecel Cash, AirtelTigo and card are listed at checkout."],["Payments","💵","I was charged incorrectly. What do I do?",()=>"Reach out via Contact Us with your order details and we'll sort it out."],["Account","👤","How do I change my phone number or name?",()=>"Go to Profile, edit your details and tap Save profile."],["Account","👤","How do I delete my account?",()=>"Go to Profile and tap Delete my data. This is permanent and cannot be undone."]];
+function helpView(){const f=S.fs.toLowerCase();let h=`<button class="chip" onclick="S.help=0;render()">← Back</button><h2>Help & FAQ</h2><input class="search" id="fq" placeholder="Search FAQs…" value="${esc(S.fs)}" oninput="S.fs=this.value;render();const q=$('#fq');q.focus();q.setSelectionRange(99,99)">`;
+h+='<div class="g2">';["Orders","Delivery","Payments","Account"].forEach(c=>{const L=FAQ.map((x,i)=>[x,i]).filter(([x])=>x[0]==c&&(!f||(x[2]+x[3]()).toLowerCase().includes(f)));if(L.length)h+=`<h3 style="margin:14px 0 8px;color:var(--pr)">${L[0][0][1]} ${c}</h3><div class="card">`+L.map(([x,i])=>`<div class="fq" onclick="S.fo[${i}]=!S.fo[${i}];render()"><div class="row sp"><b>${x[2]}</b><span class="mu">${S.fo[i]?"−":"+"}</span></div>${S.fo[i]?`<p class="mu" style="margin-top:6px">${esc(x[3]())}</p>`:""}</div>`).join("")+`</div>`});
+return h+"</div>"+`<div class="card row sp" style="background:var(--pr2)"><span>🎧 Still need help? Our team is happy to assist.</span>${S.sp?`<a href="tel:${esc(S.sp)}" style="color:var(--pr);font-weight:700">Contact Us</a>`:`<b style="color:var(--pr);cursor:pointer" onclick="say('Support number not set yet')">Contact Us</b>`}</div>`}
+function notesView(){markSeen();return `<button class="chip" onclick="S.nt=0;render()">← Back</button><h2>Notifications</h2>`+annHtml()+(S.notes.length?S.notes.slice(0,20).map(n=>`<div class="card mu">${n}</div>`).join(""):(annActive().length?"":`<p class="mu">No notifications yet</p>`))}
+function saveSp(){S.sp=$("#spn").value.trim();load("Updating shop…",()=>{save();render()})}
+function badge(t){const n=S.role=="v"&&t[0]=="orders"?S.orders.filter(o=>!o.errand&&o.st<3).length:S.role=="r"&&t[0]=="jobs"?S.orders.filter(o=>o.st>=2&&o.st<=5).length:S.role=="c"&&t[0]=="track"?S.orders.filter(o=>o.st<6&&o.cid===S.uid).length:0;return n?` <i class="nb">${n}</i>`:""}
+const ord=id=>S.orders.find(o=>o.id==id);
+const effDark=()=>(document.documentElement.dataset.theme||(window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"))=="dark";
+function togTheme(){const n=effDark()?"light":"dark";document.documentElement.dataset.theme=n;try{localStorage.setItem("sc_theme",n)}catch(e){}render()}
+try{const t=localStorage.getItem("sc_theme");if(t)document.documentElement.dataset.theme=t}catch(e){}
+const mkId=()=>Date.now()*1000+Math.floor(Math.random()*1000);
+const isCod=()=>S.pay=="Cash on delivery";
+function payOpts(){const o=S.payCfg.filter(c=>c.num).map(c=>c.k);if(!isCod()&&!o.includes(S.pay))S.pay="Cash on delivery";return [...o,"Cash on delivery"]}
+function payObj(){return isCod()?{method:"cod",status:"due"}:{method:S.pay,status:"submitted",from:S.pf.trim(),txn:S.pt.trim(),ref:"SD-"+String(S.payRef).slice(-5)}}
+function openPay(){if(!canOrder())return say(closedReason());{const sh=S.cart.length&&R[S.cart[0].r];if(sh&&ceased(sh)&&!S.isAdmin)return say("This shop has ceased operation for now")}if(!addr())return say("Add your area and a landmark or house number");S.payRef=mkId();S.payOpen=1;render()}
+function copyNum(n){try{navigator.clipboard.writeText(n).then(()=>say("Number copied"),()=>say("Copy failed. Select the number instead."))}catch(e){say("Copy failed. Select the number instead.")}}
+function payConfirm(){if(!/^0\d{9}$/.test(normP(S.pf)))return say("Enter the MoMo number you paid from");if(S.pt.trim().length<4)return say("Enter the transaction ID from your payment SMS");S.pf=normP(S.pf);place()}
+function payView(){const c=S.payCfg.find(x=>x.k==S.pay)||{num:"",name:""},t=sub()+fee()+S.tip,ref="SD-"+String(S.payRef).slice(-5),inp=(ph,k)=>`<input class="inp" style="text-align:left;font-size:16px" placeholder="${ph}" value="${esc(S[k])}" oninput="S.${k}=this.value">`;
+return `<button class="chip" onclick="S.payOpen=0;render()">← Back to cart</button><h2>Pay with ${esc(S.pay)}</h2><p class="mu sub">Follow these steps, then confirm below</p><div class="card"><p class="mu">Amount to send</p><div style="font-size:28px;font-weight:800;color:var(--pr);margin:4px 0">${gh(t)}</div><p class="mu">Send to</p><div class="row sp"><div><b style="font-size:22px;letter-spacing:1px">${esc(c.num)}</b><p class="mu">${esc(c.name||"")}</p></div><button class="chip" onclick="copyNum('${esc(c.num)}')">Copy</button></div><p class="mu" style="margin-top:8px">Reference: <b>${ref}</b></p></div><div class="card"><b>How to pay</b><ol class="mu" style="margin:8px 0 0 18px"><li>Open your ${esc(S.pay)} menu on your phone.</li><li>Choose Send Money and enter the number above.</li><li>Enter exactly ${gh(t)} and use <b>${ref}</b> as the reference.</li><li>Confirm with your PIN, then copy the transaction ID from the confirmation SMS.</li></ol></div>${inp("MoMo number you paid from","pf")}${inp("Transaction ID","pt")}<button class="btn" onclick="payConfirm()">I've paid. Place my order</button><p class="mu" style="margin-top:10px">The shop confirms your payment before it starts preparing your order.</p>`}
+const needPay=o=>o.pm&&o.pm.method!="cod"&&o.pm.status!="confirmed";
+function payLine(o){return o.pm?`<p class="mu" style="margin:6px 0">${o.pm.method=="cod"?"💵 Cash on delivery":`💳 ${esc(o.pay)} · ${o.pm.status=="confirmed"?"✅ payment confirmed":`⏳ check payment: from ${esc(o.pm.from||"")}, txn ${esc(o.pm.txn||"")}`}`}</p>`:""}
+function payTxt(o){return !o.pm?"":o.pm.method=="cod"?(o.pm.status=="collected"?"✅ Cash collected":"💵 Pay "+gh(o.total)+" in cash on delivery"):o.pm.status=="confirmed"?"✅ Payment confirmed":"⏳ Waiting for the shop to confirm your payment"}
+function confirmPay(id){load("Confirming payment…",()=>{const o=ord(id);if(o&&o.pm){o.pm.status="confirmed";if(typeof pushOrder=="function")pushOrder(o);note(o.r+": payment confirmed")}})}
+function setPay(i,f,v){if(f=="num"){v=normP(v);if(v&&!/^0\d{9}$/.test(v))return say("Enter a valid Ghana number")}else v=clean(v);S.payCfg[i][f]=v;load("Updating shop…",()=>{save();say("Payment details saved")})}
+const DN=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+const isShop=(o,r)=>o.vid&&r.id?o.vid===r.id:o.r==r.n;
+function closedReason(){const o=S.ops,d=new Date(),day=d.getUTCDay(),iso=d.toISOString().slice(0,10),hm=d.toISOString().slice(11,16);
+if(!o.on)return o.msg||"We are not taking orders right now.";
+if(!o.days[day])return o.msg||"We don't take orders on "+DN[day]+"s.";
+if(o.off.includes(iso))return o.msg||"We are closed today.";
+if(o.from&&o.to&&o.from!==o.to){const open=o.from<o.to?(hm>=o.from&&hm<o.to):(hm>=o.from||hm<o.to);if(!open)return "We take orders from "+o.from+" to "+o.to+" (Ghana time)."}
+return ""}
+const canOrder=()=>!closedReason()||!!S.isAdmin;
+function closedBanner(){const r=closedReason();return r?(S.isAdmin?`<p class="mu" style="margin-bottom:8px">🔒 Closed for customers: ${esc(r)} (admin bypass on)</p>`:`<div class="card" style="background:var(--pr2)">🔒 <b>SuperDeals is closed right now</b><p class="mu" style="margin-top:4px">${esc(r)}</p></div>`):""}
+function setOps(f,v){const o=S.ops;if(f=="on")o.on=v;else if(f=="msg")o.msg=clean(v).slice(0,120);else if(f=="day"){if(o.days[v]&&o.days.filter(Boolean).length==1)return say("Keep at least one working day, or switch Accepting orders off");o.days[v]=!o.days[v]}else if(f=="from"||f=="to")o[f]=v;else if(f=="addoff"){if(!/^\d{4}-\d{2}-\d{2}$/.test(v||""))return say("Pick a date first");if(!o.off.includes(v))o.off.push(v)}else if(f=="deloff")o.off=o.off.filter(x=>x!=v);save();render();say("Saved")}
+function shopCard(r){return `<div class="card"><p class="mu" style="margin-bottom:6px">Shop name</p><div class="row"><input class="inp" id="sn" style="margin:0;text-align:left;font-size:16px" maxlength="40" value="${esc(r.n)}"><button class="btn" style="width:auto" onclick="renameShop()">Save</button></div><p class="mu" style="margin-top:8px">${ceased(r)?"🔒 Operation ceased":"● In operation"} · customers see this name on your shop and orders</p>${hoursBlock(r)}</div>`}
+const cleanName=v=>v.replace(/["<>`\\]/g,"").trim();
+function renameShop(){const i=S.vi,r=R[i],n=cleanName(($("#sn")||{}).value||"");if(n.length<2)return say("Shop name must be at least 2 characters");if(n==r.n)return say("That is already your shop name");if(R.some((x,k)=>k!=i&&x.n.toLowerCase()==n.toLowerCase()))return say("Another shop already uses that name");const old=r.n;load("Updating shop…",()=>{r.n=n;S.orders.forEach(o=>{if(!o.vid&&o.r==old)o.r=n});save();render();say("Shop name updated")})}
+const BR={logo:{px:256,png:1},hdr:{px:900},bg:{px:1000},l:{px:800,q:.5,cap:200000},bgC:{px:900,q:.5,cap:250000},bgV:{px:900,q:.5,cap:250000},bgR:{px:900,q:.5,cap:250000}};
+const isL=k=>/^l\d$/.test(k),getK=k=>isL(k)?S.ldr[+k[1]]:S[k],setK=(k,v)=>{if(isL(k))S.ldr[+k[1]]=v;else S[k]=v};
+function upBrand(k,el){const f=el.files[0];if(!f)return;const fr=new FileReader();fr.onload=()=>{const im=new Image();im.onload=()=>{const c=document.createElement("canvas"),b=BR[isL(k)?"l":k],sc=Math.min(1,b.px/Math.max(im.width,im.height));c.width=Math.round(im.width*sc);c.height=Math.round(im.height*sc);const x=c.getContext("2d");if(!b.png){x.fillStyle="#fff";x.fillRect(0,0,c.width,c.height)}x.drawImage(im,0,0,c.width,c.height);const d=c.toDataURL(b.png?"image/png":"image/jpeg",b.q||.6);if(d.length>(b.cap||380000))return say("That image is too large. Try a smaller or simpler picture.");setK(k,d);load("Updating shop…",()=>{save();render()})};im.src=fr.result};fr.readAsDataURL(f)}
+function noBrand(k){setK(k,"");save();render()}
+function imgCard(t,k,hint){const v=getK(k);return `<div class="card"><b>${t}</b><p class="mu" style="margin:4px 0 8px">${hint}</p><div class="row sp"><span class="row">${v?`<img src="${v}" style="height:44px;max-width:90px;object-fit:cover;border-radius:8px">`:`<span class="mu">Not set</span>`}</span><span class="row"><label class="chip" style="margin:0">📷 Upload<input type="file" accept="image/*" hidden onchange="upBrand('${k}',this)"></label>${v?`<button class="chip" style="margin:0" onclick="noBrand('${k}')">Remove</button>`:""}</span></div></div>`}
+const ATY={Delay:"🐢",Important:"📣",Info:"ℹ️"};
+const annActive=()=>S.anns.filter(a=>a.until>Date.now()).sort((a,b)=>b.at-a.at);
+function seenList(){try{return JSON.parse(localStorage.getItem("sc_seen")||"[]")}catch(e){return[]}}
+const annUnseen=()=>{const sn=seenList();return annActive().some(a=>!sn.includes(a.id))};
+function markSeen(){try{localStorage.setItem("sc_seen",JSON.stringify(annActive().map(a=>a.id)))}catch(e){}}
+function annHtml(){const L=annActive();return L.length?`<h3 style="margin:6px 0 8px">📣 Announcements</h3>`+L.map(a=>`<div class="card" style="border-left:4px solid var(--pr)"><b>${ATY[a.type]||"📣"} ${esc(a.type)}</b><p style="margin:6px 0">${esc(a.text)}</p><p class="mu">Reason: ${esc(a.reason)}</p><p class="mu" style="font-size:11px;margin-top:4px">${new Date(a.at).toLocaleString("en-GB",{day:"numeric",month:"short",hour:"2-digit",minute:"2-digit"})}</p></div>`).join(""):""}
+function annBanner(){const a=annActive()[0];return a?`<div class="card" style="background:var(--pr2)"><b>${ATY[a.type]||"📣"} ${esc(a.type)}</b><p style="margin:4px 0">${esc(a.text)}</p><p class="mu">Reason: ${esc(a.reason)}</p></div>`:""}
+function annSave(a){S.anns.unshift(a);if(window.FB&&S.uid)FB.saveAnn(a).catch(e=>say(fbErr(e)));else save()}
+function removeAnn(id){S.anns=S.anns.filter(a=>a.id!=id);if(window.FB&&S.uid)FB.delAnn(id).catch(e=>say(fbErr(e)));else save();render()}
+function postAnn(){const t=S.am2.trim(),r=S.ar.trim();if(t.length<5)return say("Write the announcement first");if(r.length<3)return say("Please give the reason");const now=Date.now(),a={id:now,type:S.at,text:t.slice(0,240),reason:r.slice(0,160),at:now,until:now+S.ad*3600000,by:S.uid||"demo"};load("Sending announcement…",()=>{annSave(a);S.am2=S.ar="";say("Announcement sent")})}
+function noticesView(){const H=[3,12,24,72];return `<h2>Announcements</h2><p class="mu sub">Notices customers see in their notifications. Always give the reason.</p><div class="card"><p class="mu" style="margin-bottom:6px">Type</p><div>${Object.keys(ATY).map(t=>`<button class="chip ${S.at==t?"on":""}" onclick="S.at='${t}';render()">${ATY[t]} ${t}</button>`).join("")}</div><textarea class="inp" rows="3" style="text-align:left;font-size:15px;margin:8px 0" maxlength="240" placeholder="What should customers know? e.g. Deliveries are taking about 90 minutes today." oninput="S.am2=this.value">${esc(S.am2)}</textarea><input class="inp" style="text-align:left;font-size:15px;margin:0 0 8px" maxlength="160" placeholder="Reason, e.g. Heavy rain and road works" value="${esc(S.ar)}" oninput="S.ar=this.value"><p class="mu" style="margin-bottom:6px">Show for</p><div>${H.map(h=>`<button class="chip ${S.ad==h?"on":""}" onclick="S.ad=${h};render()">${h<24?h+" hours":h==24?"1 day":h/24+" days"}</button>`).join("")}</div><button class="btn" style="margin-top:8px" onclick="postAnn()">Send announcement</button></div><h3 style="margin:14px 0 8px">Recent announcements</h3>`+(S.anns.length?'<div class="grid">'+S.anns.slice().sort((a,b)=>b.at-a.at).slice(0,20).map(a=>`<div class="card"><b>${ATY[a.type]||"📣"} ${esc(a.type)}</b> <span class="tag">${a.until>Date.now()?"Live":"Expired"}</span><p style="margin:6px 0">${esc(a.text)}</p><p class="mu">Reason: ${esc(a.reason)}</p><button class="chip" style="margin-top:8px" onclick="removeAnn(${a.id})">Remove</button></div>`).join("")+"</div>":`<p class="mu">Nothing sent yet.</p>`)}
+// ---- per-shop operating time ----
+function inWin(hm,f,t){return f<t?(hm>=f&&hm<t):(hm>=f||hm<t)}
+const nowHM=()=>new Date().toISOString().slice(11,16);
+const outside=r=>!!(r.from&&r.to&&r.from!==r.to&&!inWin(nowHM(),r.from,r.to));
+const appClosed=()=>!!closedReason();
+const ceased=r=>appClosed()||r.open===false||outside(r);
+function riderBlocked(){if(S.ops&&!S.ops.on){say("The app is closed. Deliveries are paused until it reopens.");return true}return false}
+function hoursBlock(r){const adm=typeof avail!="function"||S.role=="a"||S.isAdmin;return adm?`<p class="mu" style="margin:10px 0 6px">Operating time for this shop (Ghana time)</p><div class="row"><input type="time" class="inp" id="hf" style="width:130px;margin:0" value="${r.from||""}"><span class="mu">to</span><input type="time" class="inp" id="ht" style="width:130px;margin:0" value="${r.to||""}"><button class="btn" style="width:auto" onclick="setShopHours()">Save</button><button class="chip" style="margin:0" onclick="setShopHours(1)">No limit</button></div>`:`<p class="mu" style="margin-top:8px">🕒 ${r.from&&r.to?"Operating time "+r.from+" to "+r.to+" (set by admin)":"No shop-specific operating time set"}</p>`}
+function setShopHours(clear){const r=R[S.vi],f=clear?"":($("#hf")||{}).value,t=clear?"":($("#ht")||{}).value;if(!clear&&(!f||!t))return say("Set both a start and an end time");load("Updating shop…",()=>{r.from=f;r.to=t;save();render();say(clear?"No time limit":"Operating time saved")})}
+const pickBg=()=>{if(S.user)return "";const m={c:S.bgC,v:S.bgV,r:S.bgR};return S.am=="up"?(m[S.rl]||S.bg):(m[S.sr]||S.bg)};
+function setIdle(v){const n=Math.max(0,Math.min(240,parseInt(v)||0));S.idle=n;save();render();say(n?"Auto sign-out set to "+n+" min":"Auto sign-out turned off")}
+function fee(){return Z[S.zone].f}
+const cur=i=>((R[i.r].m.find(m=>m[0]==i.n))||[0,i.p])[1];
+const logoI=n=>S.logo?`<img src="${S.logo}" style="height:${n}px;vertical-align:middle;margin-right:6px;border-radius:6px">`:"🛵 ";
+const xs=i=>(R[i.r].x||[]).filter(e=>i.ex&&i.ex[e[0]]);
+const exT=i=>xs(i).reduce((a,e)=>a+e[1]*i.ex[e[0]],0);
+const lineT=i=>cur(i)*i.q+exT(i);
+const exTxt=i=>{const a=xs(i).map(e=>"+"+i.ex[e[0]]+" "+e[0]),n=(i.note||"").trim();return a.length||n?" ("+a.join(", ")+(a.length&&n?" · ":"")+(n?"note: "+esc(n):"")+")":""};
+function exq(k,j,d){const i=S.cart[k],e=R[i.r].x[j];i.ex=i.ex||{};i.ex[e[0]]=Math.max(0,(i.ex[e[0]]||0)+d);if(!i.ex[e[0]])delete i.ex[e[0]];render()}
+function xUI(i,k){const x=R[i.r].x||[];return `<div style="margin-top:8px;border-top:1px dashed var(--bd);padding-top:8px">${x.length?`<p class="mu" style="margin-bottom:6px">Add extras to this item</p>`+x.map((e,j)=>`<div class="row sp" style="margin:4px 0"><span>${esc(e[0])} <span class="mu">+${gh(e[1])}</span></span><span class="row"><button class="add" onclick="exq(${k},${j},-1)">−</button>${(i.ex&&i.ex[e[0]])||0}<button class="add" onclick="exq(${k},${j},1)">+</button></span></div>`).join(""):""}<input class="inp" style="text-align:left;font-size:14px;margin:8px 0 0" placeholder="Anything else? e.g. no pepper, extra stew" value="${esc(i.note||"")}" oninput="S.cart[${k}].note=this.value"></div>`}
+function upLogo(el){const f=el.files[0];if(!f)return;const fr=new FileReader();fr.onload=()=>{const im=new Image();im.onload=()=>{const k=Math.min(1,256/Math.max(im.width,im.height)),c=document.createElement("canvas");c.width=Math.round(im.width*k);c.height=Math.round(im.height*k);c.getContext("2d").drawImage(im,0,0,c.width,c.height);S.logo=c.toDataURL("image/png");load("Updating shop…",()=>{save();render()})};im.src=fr.result};fr.readAsDataURL(f)}
+function noLogo(){S.logo="";save();render()}
+function editX(j,f,v){const r=R[S.vi],e=r.x[j];if(f==1){const q=parseFloat(v);if(!(q>=0))return say("Enter a valid price");e[1]=q}else{const n=clean(v);if(!n)return say("Name can't be empty");if(r.x.some((y,k)=>k!=j&&y[0].toLowerCase()==n.toLowerCase()))return say("That add-on already exists");e[0]=n}save();say("Add-on updated")}
+function delX(j){R[S.vi].x.splice(j,1);save();render()}
+function addX(){const r=R[S.vi],n=clean($("#xn").value),q=parseFloat($("#xp").value);if(!n||!(q>=0))return say("Enter an add-on name and price");r.x=r.x||[];if(r.x.some(y=>y[0].toLowerCase()==n.toLowerCase()))return say("That add-on already exists");load("Updating shop…",()=>{r.x.push([n,q]);save();render()})}
+function sub(){return S.cart.reduce((a,i)=>a+lineT(i),0)}
+function add(ri,mi){if(R[ri].m[mi][3]===false)return say("Sold out for now");if(ceased(R[ri])&&!S.isAdmin)return say("This shop has ceased operation for now");const m=R[ri].m[mi],f=S.cart.find(i=>i.n==m[0]);S.cart.length&&S.cart[0].r!=ri&&(S.cart=[]);f?f.q++:S.cart.push({n:m[0],p:m[1],q:1,r:ri,e:m[2]});render()}
+function qty(n,d){const i=S.cart.find(x=>x.n==n);i.q+=d;S.cart=S.cart.filter(x=>x.q>0);render()}
+function place(){if(!canOrder())return say(closedReason());{const sh=S.cart.length&&R[S.cart[0].r];if(sh&&ceased(sh)&&!S.isAdmin)return say("This shop has ceased operation for now")}if(!addr())return say("Add your area and a landmark or house number");load("Placing your order…",doPlace)}
+function doPlace(){const t=sub()+fee()+S.tip;const o={id:S.payRef||newId(),cid:S.uid,cph:S.user.phone,cn:S.user.name,at:nowS(),pay:S.pay,pm:payObj(),fee:fee(),zone:Z[S.zone].n,addr:addr(),items:S.cart.map(i=>i.q+"× "+i.n+exTxt(i)),r:R[S.cart[0].r].n,vid:R[S.cart[0].r].id||null,total:t,tip:S.tip,st:0,pin:String(1000+Math.floor(Math.random()*9000))};S.orders.push(o);pushOrder(o);S.cart=[];S.payOpen=0;S.payRef=null;S.pf=S.pt="";S.pts+=Math.floor(t/10);go("c","track");S.to=o.id;render();note(o.r+": "+NOTE[0])}
+const LM=["","Accepting the order…","Getting the order ready…","Picking up the order…"];
+function setSt(id,n){if(n==3&&riderBlocked())return;load(LM[n]||"Updating order…",()=>{const o=ord(id);if(o&&o.st<n){o.st=n;if(n==3)o.rid=S.uid;pushOrder(o);note(o.r+": "+NOTE[n])}})}
+function arrive(id){if(riderBlocked())return;load("Letting the customer know…",()=>{const o=ord(id);if(o&&o.st==3){o.st=4;pushOrder(o);note(o.r+": "+NOTE[4])}})}
+function pinIn(id,el){el.value=el.value.replace(/\D/g,"");if(el.value.length==4){const o=ord(id);if(o&&el.value==o.pin)verifyPin(id);else say("Wrong PIN, ask the customer")}}
+function verifyPin(id){if(riderBlocked())return;const o=ord(id),v=(($("#pin"+id)||{}).value||"").trim();if(!o||v!=o.pin)return say("Wrong PIN, ask the customer");load("Verifying PIN…",()=>{if(o.st==4){o.st=5;pushOrder(o);note(o.r+": "+NOTE[5])}})}
+function deliver(id){if(riderBlocked())return;load("Completing delivery…",()=>{const o=ord(id);if(!o||o.st!=5)return;S.wallet+=o.fee+o.tip;if(!o.errand)S.sales+=o.total;S.done++;S.hist.unshift({r:o.r,items:o.items.join(", "),total:o.total,at:o.at,pay:o.pay,s:6});save();if(o.pm&&o.pm.method=="cod")o.pm.status="collected";o.st=6;pushOrder(o);note(o.r+": "+NOTE[6])})}
+const stepsL=["Order placed","Vendor preparing","Ready for pickup","Rider on the way","Rider arrived","PIN verified","Delivered"];
+function cust(){const t=S.tab;if(S.help)return helpView();if(S.ap)return applyView();if(S.payOpen&&t=="cart")return payView();
+if(S.rest!=null){const r=R[S.rest];return `<button class="chip" onclick="S.rest=null;render()">← Back</button>${banner(r)}<div class="row"><div><h3>${r.n}</h3><p class="mu">⭐ ${r.r} · ${r.t} min · ${r.c} · ${r.town}</p></div></div><h2>Menu</h2>${ceased(r)?`<div class="card" style="background:var(--pr2)">🔒 <b>Operation ceased</b><p class="mu" style="margin-top:4px">This shop is not taking orders right now. You can still look at the menu.</p></div>`:""}<div class="grid">`+r.m.map((m,i)=>`<div class="card row sp"><div class="row"><span style="font-size:30px">${m[2]}</span><div><h3>${m[0]}</h3><p class="mu">${gh(m[1])}${m[3]===false?" · Sold out":""}</p></div></div><button class="add" ${m[3]===false?"disabled style=opacity:.4":""} onclick="add(${S.rest},${i})">+</button></div>`).join("")+"</div>"+(S.cart.length?`<button class="btn" onclick="go('c','cart')">View cart · ${gh(sub())}</button>`:"")}
+if(t=="req")return reqForm();
+if(t=="home"){const f=S.filter.toLowerCase(),vl=R.map((r,i)=>[r,i]).filter(([r])=>!f||(r.n+r.c+r.town).toLowerCase().includes(f));return `${S.noAdmin?adminCard():""}${closedBanner()}${annBanner()}<p class="mu">Deliver to · fee ${gh(fee())}</p><select class="search" style="padding:10px;margin:4px 0 0" onchange="setZone(this.value)">${Z.map((z,i)=>`<option value="${i}" ${i==S.zone?"selected":""}>📍 ${z.n}</option>`).join("")}</select><div class="hm"><div class="promo"><h3>Free delivery on your first order 🎉</h3><p>Pay with MoMo and earn points on every order.</p><button>Order now</button></div><div><h3 class="sec">What do you need today?</h3><div class="svc"><div onclick="S.filter='';render();document.querySelector('.vg').scrollIntoView()"><i>🍔</i>Order Food</div><div onclick="S.filter='Groceries';render()"><i>🛒</i>Groceries</div><div onclick="S.rt='Package';go('c','req')"><i>📦</i>Send Package</div><div onclick="S.rt='Errand';go('c','req')"><i>📝</i>Run Errand</div></div></div></div><h2>Browse by category</h2><div class="cats">${CATS.map(c=>`<div class="cat" onclick="S.filter='${c[1]}';render()"><i>${c[0]}</i>${c[1]}</div>`).join("")}</div><h2>Vendors near you</h2><p class="mu sub">${vl.length} shop${vl.length==1?"":"s"} · tap one to see its menu</p><div class="vg">`+vl.map(([r,i])=>`${vcard(r,i)}`).join("")+(vl.length?"":`<p class="mu">No vendors match your search.</p>`)+"</div>"+cartBar()}
+if(t=="cart"){if(!S.cart.length)return `<h2>Your cart</h2><p class="mu">Your cart is empty. Pick something tasty from Home.</p>`;const s=sub();return `<h2>Your cart</h2><p class="mu sub">Review items, add extras and set your delivery spot</p>${closedBanner()}<div class="grid">`+S.cart.map((i,k)=>`<div class="card"><div class="row sp"><span>${i.e} ${i.n}<br><b>${gh(lineT(i))}</b></span><span class="row"><button class="add" onclick="qty('${i.n}',-1)">−</button>${i.q}<button class="add" onclick="qty('${i.n}',1)">+</button></span></div>${xUI(i,k)}</div>`).join("")+"</div>"+`${addrForm()}<h3 style="margin-top:6px">Tip your rider</h3><div style="margin:8px 0">${[0,2,5,10].map(x=>`<button class="chip ${S.tip==x?"on":""}" onclick="S.tip=${x};render()">${x?"GH₵ "+x:"No tip"}</button>`).join("")}</div><div class="card row sp"><span>⏰ Schedule for later</span><div class="sw ${S.sched?"on":""}" onclick="S.sched=!S.sched;render()"></div></div><h3>Pay with</h3><div style="margin:8px 0">${payOpts().map(x=>`<button class="chip ${S.pay==x?"on":""}" onclick="S.pay='${x}';render()">${x}</button>`).join("")}</div><div class="card"><div class="row sp mu"><span>Subtotal</span><span>${gh(s)}</span></div><div class="row sp mu"><span>Delivery to ${Z[S.zone].n}</span><span>${gh(fee())}</span></div><div class="row sp mu"><span>Tip</span><span>${gh(S.tip)}</span></div><div class="row sp"><b>Total</b><b>${gh(s+fee()+S.tip)}</b></div></div>${S.pay=="Cash on delivery"?`<button class="btn" onclick="place()">Place order · pay ${gh(s+fee()+S.tip)} on delivery</button>`:`<button class="btn" onclick="openPay()">Continue to payment · ${gh(s+fee()+S.tip)}</button>`}`}
+if(t=="track"){const o=ord(S.to);if(!o)return ordersList();if(!o)return `<h2>Track order</h2><p class="mu">No active order. Place one from the Home tab.</p>${hist()}`;if(o.st==7)return cancelledView(o);const p=[8,25,45,60,80,85,88][o.st],q=o.st>=3?(o.st==4?"🏠":"🏍️"):"🏪";return `<button class="chip" onclick="S.to=0;render()">← My orders</button><h2>${ttl(o)}</h2><p class="mu" style="margin-bottom:4px">📍 ${esc(o.addr)}</p><p class="mu" style="margin-bottom:8px">${payTxt(o)}</p><div class="map"><span style="left:12%;top:55%">🏪</span><span style="left:80%;top:20%">🏠</span><span style="left:${p}%;top:${60-Math.min(o.st,4)*8}%">${o.st>=3?"🏍️":"⏳"}</span></div><div class="card steps">${(o.errand?stepsE:stepsL).map((l,i)=>`<div class="step ${i<=o.st?"d":""}"><i>${i<=o.st?"✓":i+1}</i>${l}</div>`).join("")}</div>`+(o.st<6?`<div class="card"><p class="mu" style="text-align:center">Delivery PIN, share with rider on arrival</p><div class="pin">${o.pin}</div></div><p class="mu" style="text-align:center">Demo: switch to Vendor and Rider to move this order forward.</p>${o.st<3?(S.cx=="c"&&S.cid==o.id?cancelForm("c",o.id):`<button class="btn o" style="margin-top:8px;color:#d93025" onclick="openCancel('c',${o.id})">Cancel order</button>`):""}`:`<button class="btn o" onclick="S.orders=S.orders.filter(x=>x.id!=${o.id});go('c','track')">Rate rider ⭐⭐⭐⭐⭐ and finish</button>`)}
+return `<h2>Profile</h2><p class="mu sub">Your details, notifications and preferences</p><h3>🔔 Notifications</h3>${annHtml()}${S.notes.length?S.notes.slice(0,6).map(n=>`<div class="card mu">${n}</div>`).join(""):`<p class="mu" style="margin-bottom:10px">No notifications yet</p>`}<div class="card"><p class="mu">SuperDeals Points</p><h2 style="margin:4px 0">⭐ ${S.pts} pts</h2><p class="mu">Earn 1 point per GH₵10. Redeem for free delivery.</p></div><div class="card"><p class="mu">Your details</p><input class="inp" style="text-align:left;font-size:15px;margin:6px 0" value="${esc(S.pn??S.user.name)}" oninput="S.pn=this.value"><input class="inp" style="text-align:left;font-size:15px;margin:0 0 8px" inputmode="tel" value="${esc(S.pp??S.user.phone)}" oninput="S.pp=this.value"><input class="inp" style="text-align:left;font-size:15px;margin:0 0 8px" type="email" placeholder="Email (optional)" value="${esc(S.pe??S.user.email??"")}" oninput="S.pe=this.value"><button class="btn o" onclick="saveProfile()">Save profile</button></div>${S.noAdmin?adminCard():""}${pwCard()}${phoneCard()}${roleCard()}<button class="btn o" style="margin-bottom:10px" onclick="shareLoc()">📍 Use my location</button><button class="btn o" style="margin-bottom:10px" onclick="S.help=1;render()">❓ Help & FAQ</button><div class="card row sp"><span>🌙 Dark mode</span><div class="sw ${effDark()?"on":""}" onclick="togTheme()"></div></div><button class="btn o" onclick="logout()">Sign out</button><p class="mu" style="margin:10px 0">Your name and phone are used only to deliver your orders.</p><button class="chip" onclick="wipe()">Delete my data</button>`}
+function addZone(){const v=$("#zn").value.trim();if(!v)return;load("Updating shop…",()=>{Z.push({n:v,f:Z[0].f,a:[]});save();say(v+" added")})}
+function addVend(){const v=$("#vn").value.trim();if(!v)return say("Enter a shop name");const c=$("#vc").value,tw=$("#vt").value;load("Updating shop…",()=>{R.push({n:v,e:EM[c],c,t:"25-35",r:4.5,town:tw,m:[["Sample item",20,"📦"]]});save();say(v+" added")})}
+const clean=v=>v.replace(/['"<>`\\]/g,"").trim();
+const dup=(n,j)=>R[S.vi].m.some((x,k)=>k!=j&&x[0].toLowerCase()==n.toLowerCase());
+function editItem(j,f,v){const m=R[S.vi].m[j];if(f==1){const q=parseFloat(v);if(!(q>=0))return say("Enter a valid price");m[1]=q}else if(f==0){const n=clean(v);if(!n)return say("Name can't be empty");if(dup(n,j))return say("That item already exists");m[0]=n}else m[2]=clean(v)||"🍽️";save();say("Item updated")}
+function togSold(j){const m=R[S.vi].m[j];m[3]=m[3]===false;save();render()}
+function delItem(j){R[S.vi].m.splice(j,1);save();render()}
+function addItem(){const n=clean($("#nn").value),q=parseFloat($("#np").value);if(!n||!(q>=0))return say("Enter an item name and price");if(dup(n,-1))return say("That item already exists");const e=clean($("#ne").value)||"🍽️";load("Updating shop…",()=>{R[S.vi].m.push([n,q,e]);save();render()})}
+function vend0(){const L=S.orders.filter(o=>!o.errand&&o.st<3&&(S.vf=="all"||isShop(o,R[S.vf]||{}))),cnt=i=>S.orders.filter(o=>!o.errand&&o.st<3&&isShop(o,R[i])).length;
+if(S.tab=="notices")return noticesView();
+if(S.tab=="menu"){const r=R[S.vi];return `<h2>My menu</h2><p class="mu sub">Edit items, prices and add-ons. Changes save automatically.</p>${(S.role=="a"||S.isAdmin)?`<select class="search" style="margin:0 0 10px" onchange="S.vi=+this.value;render()">${R.map((x,i)=>`<option value="${i}" ${i==S.vi?"selected":""}>${esc(x.n)}</option>`).join("")}</select>`:""}`+shopCard(r)+'<div class="grid">'+r.m.map((m,j)=>`<div class="card"><div class="row"><input class="inp" style="width:60px;margin:0;padding:8px" value="${esc(m[2])}" onchange="editItem(${j},2,this.value)"><input class="inp" style="margin:0;text-align:left;font-size:15px;padding:8px" value="${esc(m[0])}" onchange="editItem(${j},0,this.value)"></div><div class="row sp" style="margin-top:8px"><span class="row">GH₵<input class="inp" type="number" min="0" step="0.5" style="width:90px;margin:0;padding:8px" value="${m[1]}" onchange="editItem(${j},1,this.value)"></span><span class="row mu">Sold out<div class="sw ${m[3]===false?"on":""}" onclick="togSold(${j})"></div></span><button class="add" onclick="delItem(${j})">🗑</button></div></div>`).join("")+"</div>"+`<h3 style="margin:14px 0 8px">Add an item</h3><div class="card"><div class="row"><input class="inp" id="ne" style="width:60px;margin:0;padding:8px" placeholder="🍽️"><input class="inp" id="nn" style="margin:0;text-align:left;font-size:15px;padding:8px" placeholder="Item name"></div><div class="row" style="margin-top:8px"><input class="inp" id="np" type="number" min="0" step="0.5" style="margin:0;padding:8px" placeholder="Price (GH₵)"><button class="btn" style="width:auto" onclick="addItem()">Add</button></div></div><h3 style="margin:18px 0 4px">Add-ons (extras)</h3><p class="mu" style="margin-bottom:8px">Extras customers can add to any item, each with its own price. They choose how many in their cart.</p>${(r.x||[]).map((e,j)=>`<div class="card row sp"><input class="inp" style="margin:0;text-align:left;font-size:15px;padding:8px" value="${esc(e[0])}" onchange="editX(${j},0,this.value)"><span class="row">GH₵<input class="inp" type="number" min="0" step="0.5" style="width:80px;margin:0;padding:8px" value="${e[1]}" onchange="editX(${j},1,this.value)"></span><button class="add" onclick="delX(${j})">🗑</button></div>`).join("")}<div class="card"><div class="row"><input class="inp" id="xn" style="margin:0;text-align:left;font-size:15px;padding:8px" placeholder="e.g. Sausage"><input class="inp" id="xp" type="number" min="0" step="0.5" style="width:90px;margin:0;padding:8px" placeholder="GH₵"><button class="btn" style="width:auto" onclick="addX()">Add</button></div></div>`}
+if(S.tab=="setup")return `<h2>Delivery zones</h2><p class="mu" style="margin-bottom:8px">Set the delivery fee for each area (GH₵).</p>`+'<div class="grid">'+Z.map((z,i)=>`<div class="card"><div class="row sp"><span>📍 ${z.n}</span><input class="inp" type="number" min="0" style="width:90px;margin:0;padding:8px" value="${z.f}" onchange="Z[${i}].f=+this.value||0;load('Updating shop…',()=>{save();say('Fee updated')})"></div><div style="margin-top:8px">${z.a.map((x,j)=>`<span class="chip" style="cursor:default">${esc(x)} <b onclick="delArea(${i},${j})" style="cursor:pointer">×</b></span>`).join("")}</div><div class="row" style="margin-top:6px"><input class="inp" id="za${i}" style="margin:0;text-align:left;font-size:14px" placeholder="Add an area in ${esc(z.n)}"><button class="add" onclick="addArea(${i})">+</button></div></div>`).join("")+"</div>"+`<div class="row"><input class="inp" id="zn" style="margin:0" placeholder="New village or area"><button class="add" onclick="addZone()">+</button></div><h2>Branding</h2><p class="mu sub">Three separate pictures: the app logo, the welcome header picture, and the sign-in background.</p><div class="grid">${imgCard("App logo","logo","Shown in the sidebar, on the sign-in page and in the loader.")}${imgCard("Welcome header picture","hdr","Shown faintly behind the welcome greeting at the top.")}${imgCard("Sign-in background","bg","Shown faintly behind the sign-in page. Also used for any role that has no picture of its own.")}${typeof avail=="function"?imgCard("Sign-up: customer","bgC","Background when someone registers as a customer.")+imgCard("Sign-up: vendor","bgV","Background when someone registers as a vendor.")+imgCard("Sign-up: rider","bgR","Background when someone registers as a rider."):""}</div><h2>Loader pictures</h2><p class="mu sub">Four pictures fade in one after another behind the loader. Without pictures, simple scenes are shown.</p><div class="grid">${[0,1,2,3].map(i=>imgCard((i+1)+". "+LCAP[i],"l"+i,"Shown faintly behind the loader.")).join("")}</div>${typeof avail=="function"?`<h2>Admin security</h2><div class="card row sp"><div><b>Auto sign-out when inactive</b><p class="mu">Applies to the Admin page only. Set 0 to turn it off.</p></div><span class="row"><input type="number" min="0" max="240" class="inp" style="width:80px;margin:0" value="${S.idle}" onchange="setIdle(this.value)"><span class="mu">min</span></span></div>`:""}${sqlCard()}<h2>App hours and days</h2><p class="mu sub">Close the app, or choose when customers can place orders. Times are Ghana time.</p><div class="card row sp"><div><b>Accepting orders</b><p class="mu">${closedReason()?"🔴 Closed now: "+esc(closedReason()):"🟢 Open now"}</p></div><div class="sw ${S.ops.on?"on":""}" onclick="setOps('on',!S.ops.on)"></div></div><div class="card"><p class="mu" style="margin-bottom:6px">Message shown to customers when closed (optional)</p><input class="inp" style="text-align:left;font-size:15px;margin:0" maxlength="120" placeholder="e.g. We are closed for the holiday. Back on Monday." value="${esc(S.ops.msg)}" onchange="setOps('msg',this.value)"></div><div class="card"><p class="mu" style="margin-bottom:8px">Working days</p>${[1,2,3,4,5,6,0].map(d=>`<button class="chip ${S.ops.days[d]?"on":""}" onclick="setOps('day',${d})">${DN[d].slice(0,3)}</button>`).join("")}<div class="row" style="margin-top:8px"><span class="mu">Open from</span><input type="time" class="inp" style="width:130px;margin:0" value="${S.ops.from}" onchange="setOps('from',this.value)"><span class="mu">to</span><input type="time" class="inp" style="width:130px;margin:0" value="${S.ops.to}" onchange="setOps('to',this.value)"></div></div><div class="card"><p class="mu" style="margin-bottom:8px">Non-working dates (holidays, special closures)</p><div class="row"><input type="date" class="inp" id="od" style="margin:0"><button class="add" onclick="setOps('addoff',document.getElementById('od').value)">+</button></div><div style="margin-top:8px">${S.ops.off.slice().sort().map(x=>`<span class="chip" style="cursor:default">${x} <b onclick="setOps('deloff','${x}')" style="cursor:pointer">×</b></span>`).join("")||`<p class="mu">No special closures.</p>`}</div></div><h2>Payment numbers</h2><p class="mu sub">Customers send MoMo payments to these numbers. A network with no number is not offered.</p><div class="grid">${S.payCfg.map((c,i)=>`<div class="card"><b>${c.k}</b><input class="inp" style="text-align:left;font-size:15px;margin:8px 0" type="tel" placeholder="Number to receive payments" value="${esc(c.num)}" onchange="setPay(${i},'num',this.value)"><input class="inp" style="text-align:left;font-size:15px;margin:0" placeholder="Account name shown to customers" value="${esc(c.name)}" onchange="setPay(${i},'name',this.value)"></div>`).join("")}</div><h2>Support contact</h2><div class="row"><input class="inp" id="spn" style="margin:0;text-align:left;font-size:14px" placeholder="Support phone number" value="${esc(S.sp)}"><button class="add" onclick="saveSp()">✓</button></div><h2>Vendor photos</h2><div class="grid">${R.map((r,i)=>`<div class="card row sp"><span class="row">${hero(r)}<b>${r.n}</b></span><label class="chip" style="margin:0">📷 Photo<input type="file" accept="image/*" hidden onchange="upImg(${i},this)"></label></div>`).join("")}</div><h2>Add a vendor</h2><input class="inp" id="vn" placeholder="Shop name"><select class="inp" id="vc">${Object.keys(EM).map(k=>`<option>${k}</option>`).join("")}</select><select class="inp" id="vt">${Z.map(z=>`<option>${z.n}</option>`).join("")}</select><button class="btn" onclick="addVend()">Add vendor</button>`;if(S.tab=="stats")return `<h2>Today</h2><p class="mu sub">How your shop is doing</p><div class="card row"><div class="stat"><b>${gh(S.sales)}</b><span class="mu">Sales</span></div><div class="stat"><b>${S.done}</b><span class="mu">Orders</span></div><div class="stat"><b>4.8</b><span class="mu">Rating</span></div></div>`;
+return `<div class="cats" style="margin-bottom:10px"><button class="chip ${S.vf=="all"?"on":""}" onclick="S.vf='all';render()">All shops · ${S.orders.filter(o=>!o.errand&&o.st<3).length}</button>${R.map((r,k)=>`<button class="chip ${S.vf===k?"on":""}" onclick="S.vf=${k};render()">${esc(r.n)}${cnt(k)?" · "+cnt(k):""}</button>`).join("")}</div>${S.vf=="all"?"":`<div class="card row sp"><div><h3>${esc(R[S.vf].n)}</h3><p class="mu">${R[S.vf].open!==false?"● In operation":"🔒 Operation ceased"}</p></div><div class="sw ${R[S.vf].open!==false?"on":""}" onclick="R[S.vf].open=R[S.vf].open===false;save();render()"></div></div>`}<h2>Incoming orders</h2><p class="mu sub">Every new order from every customer shows here. Pick a shop to filter.</p>`+(L.length?'<div class="grid">'+L.map(o=>`<div class="card"><div class="row sp"><span class="tag">${esc(o.r)}</span><span class="bdg">${o.st==0?"NEW":o.st==1?"PREPARING":"READY"}</span></div><ul style="margin:8px 0 8px 18px">${o.items.map(x=>`<li>${x}</li>`).join("")}</ul><p class="mu">👤 ${esc(o.cn||"Customer")} · 📍 ${esc(o.zone)} · ${esc(o.pay||"")} · ${o.at}</p><div class="row sp" style="margin:8px 0"><b>Total</b><b style="color:var(--pr)">${gh(o.total)}</b></div>${payLine(o)}${o.st==0?(needPay(o)?`<button class="btn" onclick="confirmPay(${o.id})">Confirm payment received</button>`:`<button class="btn g" onclick="setSt(${o.id},1)">Accept order</button>`):o.st==1?`<button class="btn" onclick="setSt(${o.id},2)">Mark ready for pickup</button>`:""}${S.cx=="v"&&S.cid==o.id?cancelForm("v",o.id):`<button class="btn o" style="margin-top:8px;color:#d93025" onclick="openCancel('v',${o.id})">Cancel order</button>`}</div>`).join("")+"</div>":`<p class="mu">No active orders right now. New orders from any customer will show up here.</p>`)}
+function rider(){const A=S.orders.filter(o=>o.st>=3&&o.st<=5),J=S.orders.filter(o=>o.st==2);if(S.tab=="wallet")return `<h2>Earnings wallet</h2><div class="promo"><p>Available balance</p><h2>${gh(S.wallet)}</h2><button onclick="say('Cash out sent to MoMo')">Cash out to MoMo</button></div><p class="mu">${S.done} deliveries completed today.</p>`;
+const mp=o=>`<p class="mu" style="margin:6px 0">📍 ${esc(o.addr)} · <a href="${mapUrl(o.addr)}" target="_blank" rel="noopener" style="color:var(--pr)">Open in Google Maps</a></p>`;
+const act=o=>`<div class="card"><span class="tag">${esc(o.r)}</span> <span class="tag">${o.pm&&o.pm.method=="cod"?"💵 Collect "+gh(o.total):"✅ Paid"}</span>`+(o.st==3?`<h3 style="margin:8px 0">Heading to customer 🏍️</h3>${mp(o)}<button class="btn g" onclick="arrive(${o.id})">I've arrived</button>`:o.st==4?`<h3 style="margin:8px 0">You've arrived 📍</h3><p class="mu">Ask the customer for their 4-digit delivery PIN</p><input class="inp" id="pin${o.id}" maxlength="4" inputmode="numeric" placeholder="••••" oninput="pinIn(${o.id},this)"><button class="btn" onclick="verifyPin(${o.id})">Verify PIN</button>`:`<h3 style="margin:8px 0">PIN verified ✅</h3><p class="mu">Hand the order to the customer, then complete the delivery.</p><button class="btn g" onclick="deliver(${o.id})">Complete delivery</button>`)+`</div>`;
+const off=o=>`<div class="card"><span class="tag">New job · 2.1 km</span><h3 style="margin:8px 0">${esc(o.r)} → ${esc(o.addr)}</h3><p class="mu">Earn ${gh(o.fee+o.tip)}</p><button class="btn g" onclick="setSt(${o.id},3)">Accept & pick up</button></div>`;
+let b=A.map(act).join("")+(S.online?J.map(off).join(""):"");if(b)b='<div class="grid">'+b+"</div>";if(!b)b=S.online?`<p class="mu">Searching for nearby jobs… 🔎</p>`:`<p class="mu">Go online to receive nearby jobs.</p>`;
+return `<div class="card row sp"><div><h3>${S.online?"You're online":"You're offline"}</h3><p class="mu">Gold rider · 4.9 ⭐</p></div><div class="sw ${S.online?"on":""}" onclick="S.online=!S.online;render()"></div></div><h2>Jobs</h2><p class="mu sub">Accept a job, deliver, and confirm with the customer's PIN</p>`+(S.ops&&!S.ops.on?`<div class="card" style="background:var(--pr2)">⛔ <b>The app is closed</b><p class="mu" style="margin-top:4px">Deliveries are paused until the admin reopens it. Orders already placed will wait.</p></div>`:"")+b}
+function side(){if(S.role!="c"||S.tab=="cart")return"";const s=sub();return `<h3>🛍️ Your order</h3>`+(S.cart.length?S.cart.map(i=>`<div class="row sp mu" style="margin:8px 0"><span>${i.q}× ${i.n}</span><span>${gh(lineT(i))}</span></div>`).join("")+`<p class="mu">Delivery to ${Z[S.zone].n}: ${gh(fee())}</p><div class="row sp" style="margin:12px 0"><b>Total</b><b>${gh(s+fee()+S.tip)}</b></div><button class="btn" onclick="go('c','cart')">Checkout</button>`:`<p class="mu" style="margin-top:8px">Your cart is empty</p>`)}
+function render(){const st=S.sc?0:$("#app").scrollTop;S.sc=0;$("#roles").innerHTML=(S.user&&avail().length>1?avail():[]).map(k=>`<button class="${S.role==k?"on":""}" onclick="go('${k}')">${NAMES[k]}</button>`).join("");
+$("#top").innerHTML=S.user?wb():"";$("#app").innerHTML=S.user?(pendingApp()?pendingView():(S.nt?notesView():({c:cust,v:vend,r:rider,a:adminV})[S.role]())):loginView();
+{const mn=document.querySelector(".main"),on=pickBg();if(mn){mn.classList.toggle("bg",!!on);if(on)mn.style.setProperty("--bgimg","url('"+on+"')")}}$("#side").innerHTML=S.user&&!pendingApp()?side():"";$("#nav").innerHTML=(!S.user||pendingApp())?"":`<div class="brand">${logoI(30)}SuperDeals<small>Super Deals. Super Fast.</small></div>`+TABS[S.role].map(t=>`<button class="${S.tab==t[0]?"on":""}" onclick="go(null,'${t[0]}')"><b>${t[1]}</b>${t[2]}${badge(t)}</button>`).join("");
+document.querySelectorAll(".toast").forEach(e=>e.remove());if(S.toast)$("#app").insertAdjacentHTML("afterend",`<div class="toast">${S.toast}</div>`);$("#app").scrollTop=st}
+const BASE=R.length;
+let lastV={},lastS="",lastB="",lastL="",lastU="";
+const signupObj=()=>({c:S.bgC||"",v:S.bgV||"",r:S.bgR||""});
+const loaderObj=()=>({p:S.ldr.slice()});
+const brandObj=()=>({logo:S.logo||"",hdr:S.hdr||"",bg:S.bg||""});
+const strip=o=>JSON.parse(JSON.stringify(o));
+const vOut=r=>strip({...r,m:(r.m||[]).map(a=>({n:a[0],p:a[1],e:a[2],o:a[3]===false?0:1})),x:(r.x||[]).map(a=>({n:a[0],p:a[1]}))});
+const vIn=d=>({...d,m:(d.m||[]).map(a=>a.o===0?[a.n,a.p,a.e,false]:[a.n,a.p,a.e]),x:(d.x||[]).map(a=>[a.n,a.p])});
+const settingsObj=()=>({zones:strip(Z),sp:S.sp||"",pay:strip(S.payCfg),ops:strip(S.ops),idle:S.idle,dbmode:S.dbmode});
+function save(){if(!window.FB||!S.uid)return;try{let n=0;R.forEach(r=>{if(!r.id){r.id="v"+Date.now()+Math.floor(Math.random()*1000);r.ord=Date.now()+n++}const o=vOut(r),j=JSON.stringify(o);if(lastV[r.id]!==j){lastV[r.id]=j;FB.saveVendor(r.id,o).catch(e=>say(fbErr(e)))}});if(S.isAdmin){const uj=JSON.stringify(signupObj());if(uj!==lastU){lastU=uj;FB.saveSignup(signupObj()).catch(e=>say(fbErr(e)))}const lj=JSON.stringify(loaderObj());if(lj!==lastL){lastL=lj;FB.saveLoader(loaderObj()).catch(e=>say(fbErr(e)))}const bj=JSON.stringify(brandObj());if(bj!==lastB){lastB=bj;FB.saveBranding(brandObj()).catch(e=>say(fbErr(e)))}const sj=JSON.stringify(settingsObj());if(sj!==lastS){lastS=sj;FB.saveSettings(settingsObj()).catch(e=>say(fbErr(e)))}}}catch(e){console.error(e);say(fbErr(e))}}
+setInterval(()=>{if($("#ld"))return;const a=document.activeElement;if(a&&/INPUT|TEXTAREA|SELECT/.test(a.tagName))return;render()},60000);
+let syncOn=false,unsubs=[],firstO=true,annInit=false,unsubU=null,unsubR=null,unsubA=null,syncKey="";
+const newId=()=>Date.now()*1000+Math.floor(Math.random()*1000);
+const avail=()=>S.isAdmin?["c","v","r","a"]:["c",...(S.user&&S.user.vendorId?["v"]:[]),...(S.user&&S.user.rider?["r"]:[])];
+function pushOrder(o){o.by=S.uid;FB.saveOrder(strip(o)).catch(e=>say(fbErr(e)))}
+function stopSync(){unsubs.forEach(f=>f());unsubs=[];syncOn=false;firstO=true;annInit=false;S.orders=[];S.hist=[];S.sales=S.done=S.wallet=0;lastV={};lastS=""}
+function startSync(){if(syncOn)return;syncOn=true;unsubs=FB.subscribe({
+vendors:(docs,fc)=>{if(!docs.length){if(!fc&&S.isAdmin){R.forEach((r,i)=>{r.id="v"+(i+1);r.ord=i});FB.seedVendors(R.map(vOut)).catch(e=>say(fbErr(e)))}return}R.splice(0,R.length,...docs.map(vIn));lastV=Object.fromEntries(R.map(r=>[r.id,JSON.stringify(vOut(r))]));render()},
+settings:(d,fc)=>{if(!d){if(!fc&&S.isAdmin)FB.saveSettings(settingsObj()).catch(e=>say(fbErr(e)));return}Z.splice(0,Z.length,...(d.zones||[]));Z.forEach(z=>{if(!z.a)z.a=[]});S.sp=d.sp||"";if(d.pay)S.payCfg=d.pay;if(d.ops)S.ops={...S.ops,...d.ops};if(typeof d.idle=="number")S.idle=d.idle;if(d.dbmode){S.dbmode=d.dbmode;FB.force(d.dbmode)}lastS=JSON.stringify(settingsObj());render()},
+orders:docs=>onOrders(docs),
+reqs:l=>{S.reqs=l;render()},users:l=>{S.users=l;render()},admins:l=>{S.admins=l;render()},
+anns:l=>{const old=new Set(S.anns.map(a=>a.id)),first=!annInit;S.anns=l;annInit=true;if(!first&&!S.isAdmin)l.filter(a=>!old.has(a.id)&&a.until>Date.now()).forEach(a=>note("📣 "+a.type+": "+a.text+" (Reason: "+a.reason+")"));render()},
+error:e=>say(fbErr(e))},{uid:S.uid,vendorId:S.user.vendorId||null,rider:!!S.user.rider,admin:S.isAdmin})}
+function onOrders(docs){const prev=Object.fromEntries(S.orders.map(o=>[o.id,o.st]));
+if(!firstO)docs.forEach(o=>{if(!o.by||o.by===S.uid)return;const p=prev[o.id];
+if(p===undefined){if(!o.errand&&o.st==0&&(o.vid===S.user.vendorId||S.isAdmin))note("New order for "+o.r);else if(o.st==2&&(S.user.rider||S.isAdmin))note("New delivery job available")}
+else if(p!==o.st){if(o.cid===S.uid)note(o.r+": "+(o.st==7?"cancelled"+(o.x?" - "+o.x.reason:""):NOTE[o.st]));else if(o.st==2&&(S.user.rider||S.isAdmin))note("Job ready for pickup: "+o.r)}});
+firstO=false;S.orders=docs.slice().sort((a,b)=>a.id-b.id);
+S.hist=S.orders.filter(o=>o.cid===S.uid&&o.st>=6).reverse().map(o=>({r:o.r,items:o.items.join(", "),total:o.total,at:o.at,pay:o.pay,s:o.st}));
+const dv=S.orders.filter(o=>o.st==6);S.done=dv.length;S.sales=dv.filter(o=>!o.errand).reduce((a,o)=>a+o.total,0);S.wallet=dv.filter(o=>o.rid===S.uid).reduce((a,o)=>a+o.fee+(o.tip||0),0);render()}
+function sqlCard(){if(!S.sqlAsked){S.sqlAsked=1;setTimeout(refreshSql,0)}const st=S.sql||{};return `<h2>Backup database (SQL)</h2><p class="mu sub">Keeps a copy of your data in a free SQL database. If Firestore runs out of its free quota, the app switches to the copy automatically.</p><div class="card"><div class="row sp"><b>Status</b><span class="tag">${!st.cfg?"Not configured":st.act=="sql"?"Using the SQL backup":"On standby, copying changes"}</span></div><p class="mu" style="margin:6px 0">${!st.cfg?"Paste your Supabase URL and anon key into the page code (SUPABASE_URL and SUPABASE_ANON_KEY).":st.sess?"SQL sign-in is active on this device.":"No SQL sign-in yet. Sign out and sign in once to connect it."}${st.err?"<br>Last backup error: "+esc(st.err):""}</p><p class="mu" style="margin-top:8px">Which database should the app use?</p><div style="margin:6px 0">${[["auto","Automatic"],["fs","Firestore only"],["sql","SQL only"]].map(([k,l])=>`<button class="chip ${S.dbmode==k?"on":""}" onclick="setDbMode('${k}')">${l}</button>`).join("")}</div><div class="row" style="flex-wrap:wrap;margin-top:6px"><button class="btn o" style="width:auto" onclick="sqlSetup()">Set up SQL admin</button><button class="btn o" style="width:auto" onclick="sqlCopy('fs2sql')">Copy Firestore → SQL</button><button class="btn o" style="width:auto" onclick="sqlCopy('sql2fs')">Copy SQL → Firestore</button><button class="chip" onclick="refreshSql()">Refresh</button></div></div>`}
+async function refreshSql(){try{S.sql=await FB.sqlStatus()}catch(e){S.sql={cfg:false}}render()}
+async function setDbMode(m){if(!S.isAdmin)return;S.dbmode=m;try{await FB.saveSettingsBoth(settingsObj());lastS=JSON.stringify(settingsObj())}catch(e){return say(fbErr(e))}FB.force(m==="auto"?"":m);render();say("Database mode saved")}
+async function sqlSetup(){try{await FB.sqlClaim();say("SQL admin is set up")}catch(e){say(/already/i.test(e.message||"")?"An SQL admin already exists":fbErr(e))}refreshSql()}
+function sqlCopy(d){if($("#ld"))return;load(d=="fs2sql"?"Copying to SQL…":"Copying to Firestore…",()=>{FB.copy(d).then(r=>say("Copied "+r),e=>say(fbErr(e))).then(refreshSql)})}
+setInterval(()=>{if(S.isAdmin&&S.role=="a"&&S.tab=="setup"&&!$("#ld"))refreshSql()},30000);
+function reSync(){if(!S.user)return;const k=[S.user.vendorId||"",S.user.rider?1:0,S.isAdmin?1:0].join("|");if(!syncOn||k!==syncKey){syncKey=k;stopSync();startSync()}if(S.want&&avail().includes(S.want)){S.role=S.want;S.tab=TABS[S.want][0][0];S.want="";try{if(S.role!="a")localStorage.setItem("sc_lr",S.role)}catch(e){}}if(!avail().includes(S.role)){S.role="c";S.tab="home"}}
+let pubU=[];
+function pubSubs(){pubU.forEach(f=>f&&f());pubU=[FB.subBranding(d=>{if(d){S.logo=d.logo||"";S.hdr=d.hdr||"";S.bg=d.bg||"";lastB=JSON.stringify(brandObj())}render()}),FB.subLoader(d=>{if(d&&d.p){S.ldr=[0,1,2,3].map(i=>d.p[i]||"");lastL=JSON.stringify(loaderObj())}}),FB.subSignup(d=>{if(d){S.bgC=d.c||"";S.bgV=d.v||"";S.bgR=d.r||"";lastU=JSON.stringify(signupObj())}render()})]}
+async function userSubs(){const ph0=(S.fbEmail||"").split("@")[0];unsubA&&unsubA();unsubU&&unsubU();unsubR&&unsubR();
+try{S.noAdmin=!(await FB.hasBootstrap())}catch(e){S.noAdmin=false}
+unsubA=FB.subAdmin(S.uid,ex=>{S.isAdmin=ex;if(ex)S.noAdmin=false;reSync();render()});
+unsubU=FB.subUser(S.uid,d=>{S.user=d?{...d,uid:S.uid}:(S.user&&S.user.uid===S.uid?S.user:{name:ph0,phone:ph0,email:"",uid:S.uid});reSync();render()});
+unsubR=FB.subMyReq(S.uid,d=>{S.myReq=d;render()})}
+function fbInit(){pubSubs();FB.onAuth(async u=>{
+if(!u){[unsubU,unsubR,unsubA].forEach(f=>f&&f());unsubU=unsubR=unsubA=null;S.user=null;S.uid=null;S.fbEmail="";S.isAdmin=false;S.noAdmin=false;S.myReq=null;S.reqs=[];S.users=[];S.admins=[];S.role="c";S.tab="home";stopSync();render();return}
+S.uid=u.uid;S.fbEmail=u.email||"";await userSubs()});render()}
+window.addEventListener("db-switch",async e=>{const d=e.detail||{};S.dbact=d.act;stopSync();pubSubs();if(S.uid){await userSubs();if(d.act==="sql"){let st={};try{st=await FB.sqlStatus()}catch(x){}if(st.cfg&&!st.sess){logout("The main database has reached its free limit. Please sign in again to continue on the backup database.");return}say("The main database is busy, so the app switched to the backup database.")}else say("Back on the main database.")}render()});
+try{const lr=localStorage.getItem("sc_lr");if(lr){if("cvr".includes(lr))S.sr=lr;S.am="in"}}catch(e){}
+window.addEventListener("fb-ready",fbInit);if(window.FB)fbInit();
+let lastAct=Date.now(),idleWarned=false;
+["mousemove","keydown","click","touchstart","scroll","wheel"].forEach(n=>addEventListener(n,()=>{lastAct=Date.now();idleWarned=false},{passive:true,capture:true}));
+function idleCheck(){if(!S.user||!S.isAdmin||S.role!="a"||!(S.idle>0)||$("#ld"))return;const left=S.idle*60000-(Date.now()-lastAct);if(left<=0)logout("You were signed out because the admin page was inactive.");else if(left<=30000&&!idleWarned){idleWarned=true;say("Signing out in 30 seconds because of inactivity. Move the mouse to stay signed in.")}}
+setInterval(idleCheck,5000);
+function vend(){if(S.role=="v"&&!S.isAdmin){const k=R.findIndex(r=>r.id===(S.user||{}).vendorId);if(k>=0){S.vi=k;S.vf=k}}let h=vend0();if(S.role=="v"&&!S.isAdmin&&S.tab=="orders")h=h.replace(/<div class="cats" style="margin-bottom:10px">.*?<\/div>(?=<div class="card row sp">)/s,"");return h}
+function roleCard(){const u=S.user,q=S.myReq,sh=u.vendorId?(R.find(r=>r.id===u.vendorId)||{}).n:"";let h=`<div class="card"><p class="mu" style="margin-bottom:8px">Work with SuperDeals</p>`;
+if(u.vendorId)h+=`<p>🏪 You manage <b>${esc(sh||"your shop")}</b>. Switch to Vendor at the top.</p>`;
+if(u.rider)h+=`<p style="margin-top:6px">🏍️ You're an approved rider. Switch to Rider at the top.</p>`;
+if(q&&q.status=="pending")h+=`<p class="mu" style="margin-top:6px">⏳ Your ${q.type} application is waiting for approval.</p>`;
+else{if(q&&q.status=="rejected")h+=`<p class="mu" style="margin-top:6px">Your last ${q.type} application was declined${q.reason?": "+esc(q.reason):""}.</p>`;
+if(!u.vendorId)h+=`<button class="btn o" style="margin-top:8px" onclick="openApply('v')">Apply as a vendor</button>`;
+if(!u.rider)h+=`<button class="btn o" style="margin-top:8px" onclick="openApply('r')">Apply as a rider</button>`}
+return h+`</div>`}
+function openApply(role){S.ap=role;S.sc=1;render()}
+function applyView(){const t=S.ap=="v"?"vendor":"rider";return `<button class="chip" onclick="S.ap=0;render()">← Back</button><h2>Apply as a ${t}</h2><p class="mu sub">The admin reviews your application before approving it.</p><div style="max-width:420px">${roleFields(S.ap)}<button class="btn" onclick="submitApply()">Submit application</button></div>`}
+function submitApply(){const rr=roleReq(S.ap);if(rr.err)return say(rr.err);FB.createReq(S.uid,{...rr.req,name:S.user.name,phone:S.user.phone,status:"pending",created:Date.now()}).then(()=>load("Sending your application…",()=>{S.ap=0;render()})).catch(e=>say(fbErr(e)))}
+function pendingApp(){return !!(S.user&&S.myReq&&S.myReq.status=="pending"&&S.myReq.signup&&!S.user.vendorId&&!S.user.rider&&!S.isAdmin)}
+function pendingView(){const t=S.myReq.type=="vendor"?"vendor":"rider";return `<div class="card" style="max-width:560px;margin:20px auto;text-align:center"><div style="font-size:48px">⏳</div><h3 style="margin:8px 0">Your ${t} application is under review</h3><p class="mu">The admin is checking your details${t=="rider"?" and may call you or your emergency contact":""}. You will get access as soon as it is approved. Check back later.</p><button class="btn o" style="margin-top:14px" onclick="logout()">Sign out</button></div>`}
+function adminCard(){return `<div class="card" style="background:var(--pr2)"><b>👑 Set up SuperDeals</b><p class="mu" style="margin:6px 0 10px">No admin exists yet. If you are the owner, make this account the admin. Do this before sharing the link with anyone.</p><button class="btn" onclick="claimAdmin()">Make me the admin</button></div>`}
+async function claimAdmin(){try{await FB.claimAdmin(S.uid);S.noAdmin=false;load("Setting up SuperDeals…",()=>say("You are the admin"))}catch(e){say(fbErr(e))}}
+async function setAdmin(id,v){try{v?await FB.addAdmin(id,S.uid):await FB.removeAdmin(id);say(v?"Admin added":"Admin removed")}catch(e){say(fbErr(e))}}
+function phoneCard(){return `<div class="card"><p class="mu" style="margin-bottom:6px">Change phone number</p><p class="mu" style="margin-bottom:8px">Your phone number is also your sign-in ID. Enter the new number and your password.</p><input class="inp" style="text-align:left;font-size:15px;margin:0 0 8px" type="tel" placeholder="New phone number" value="${esc(S.nph)}" oninput="S.nph=this.value">${pwF("Current password","cpw")}<button class="btn o" onclick="changePhone()">Update phone number</button></div>`}
+async function changePhone(){if($("#ld"))return;const p=normP(S.nph);if(!/^0\d{9}$/.test(p))return say("Enter a valid Ghana phone number");if(p==S.user.phone)return say("That is already your number");if(!S.cpw)return say("Enter your password to confirm");
+try{await FB.changePhone(S.cpw,p)}catch(e){const c=e.code||"";return say(/invalid-credential|wrong-password/.test(c)?"Password is incorrect":c=="auth/email-already-in-use"?"That number is already registered to another account":c=="auth/operation-not-allowed"?"Phone change is switched off. In Firebase Authentication settings, turn off Email enumeration protection.":fbErr(e))}
+load("Updating your profile…",()=>{S.user={...S.user,phone:p};S.nph=S.cpw="";render();say("Phone number updated")})}
+function reqCard(q){const v=q.vet||{},det=q.type=="rider"?[["Vehicle",(q.vehicle||"")+(q.plate?" · "+q.plate:"")],["Area",q.area],["Emergency contact",(q.ecName||"")+" · "+(q.ecPhone||"")],["ID",(q.idType||"")+" · "+(q.idNo||"")]]:[["Shop",q.shopName],["Category",q.shopCat],["Town",q.shopTown]];
+return `<div class="card"><span class="tag">${q.type=="vendor"?"Vendor":"Rider"} application</span><h3 style="margin:8px 0">${esc(q.name)}</h3><p class="mu">📞 ${esc(q.phone)}</p>${det.map(([a,b])=>`<p style="margin-top:4px"><span class="mu">${a}:</span> ${esc(b||"")}</p>`).join("")}`+(q.type=="rider"?`<p class="mu" style="margin:10px 0 4px">Vetting checklist (all required to approve)</p>${[["id","ID checked against the person's document"],["call","Phone and emergency contact called"],["veh","Vehicle and area confirmed"]].map(([k,l])=>`<label style="display:flex;gap:8px;margin:4px 0"><input type="checkbox" ${v[k]?"checked":""} onchange="vetTog('${q.id}','${k}')"> ${l}</label>`).join("")}<input class="inp" style="text-align:left;font-size:14px;margin:8px 0" placeholder="Vetting notes (optional)" value="${esc(v.note||"")}" onchange="vetNote('${q.id}',this.value)">`:`<select class="search" id="rs${q.id}" style="margin:8px 0"><option value="new">Create new shop “${esc(q.shopName||"")}”</option>${R.filter(r=>!S.users.some(u=>u.vendorId===r.id)).map(r=>`<option value="${r.id}">Assign existing: ${esc(r.n)}</option>`).join("")}</select>`)+`<input class="inp" style="text-align:left;font-size:14px;margin:8px 0" placeholder="Reason, if declining" value="${esc(S.rj[q.id]||"")}" oninput="S.rj['${q.id}']=this.value"><div class="row"><button class="btn g" onclick="approve('${q.id}')">Approve</button><button class="btn o" onclick="rejectReq('${q.id}')">Decline</button></div></div>`}
+function vetTog(id,k){const q=S.reqs.find(x=>x.id==id);if(!q)return;const v={...(q.vet||{})};v[k]=!v[k];FB.setReq(id,{vet:v}).catch(e=>say(fbErr(e)))}
+function vetNote(id,val){const q=S.reqs.find(x=>x.id==id);if(!q)return;FB.setReq(id,{vet:{...(q.vet||{}),note:cleanName(val).slice(0,200)}}).catch(e=>say(fbErr(e)))}
+async function approve(id){const q=S.reqs.find(x=>x.id==id);if(!q)return;if(q.type=="rider"){const v=q.vet||{};if(!(v.id&&v.call&&v.veh))return say("Complete the whole vetting checklist before approving")}
+try{if(q.type=="rider")await FB.setUser(id,{rider:true});else{let vid=($("#rs"+id)||{}).value||"new";if(vid=="new"){vid="v"+Date.now();await FB.saveVendor(vid,vOut({id:vid,ord:Date.now(),n:cleanName(q.shopName||"")||q.name+"'s Shop",e:EM[q.shopCat]||"🏪",c:q.shopCat||"Local",t:"25-35",r:4.5,town:q.shopTown||Z[0].n,m:[],x:[]}))}await FB.setUser(id,{vendorId:vid})}await FB.setReq(id,{status:"approved"});load("Updating shop…",()=>say("Approved"))}catch(e){say(fbErr(e))}}
+async function rejectReq(id){const r=(S.rj[id]||"").trim();if(r.length<3)return say("Give a reason for declining");try{await FB.setReq(id,{status:"rejected",reason:r.slice(0,160)});say("Application declined")}catch(e){say(fbErr(e))}}
+function userCard(u){const sh=u.vendorId?(R.find(r=>r.id===u.vendorId)||{}).n||"shop":"";return `<div class="card"><b>${esc(u.name||"")}</b><p class="mu">📞 ${esc(u.phone||"")}${u.email?" · "+esc(u.email):""}</p><div style="margin:8px 0">${sh?`<span class="tag">Vendor: ${esc(sh)}</span> `:""}${u.rider?`<span class="tag">Rider</span>`:""} ${S.admins.includes(u.id)?`<span class="tag">Admin</span>`:""}</div><div class="row">${u.rider?`<button class="chip" onclick="setRider('${u.id}',false)">Remove rider</button>`:`<button class="chip" onclick="setRider('${u.id}',true)">Make rider</button>`}${u.vendorId?`<button class="chip" onclick="rmVendor('${u.id}')">Remove vendor</button>`:""}${S.admins.includes(u.id)?(u.id===S.uid?"":`<button class="chip" onclick="setAdmin('${u.id}',false)">Remove admin</button>`):`<button class="chip" onclick="setAdmin('${u.id}',true)">Make admin</button>`}</div></div>`}
+async function setRider(id,v){try{await FB.setUser(id,{rider:v});say(v?"Rider added":"Rider removed")}catch(e){say(fbErr(e))}}
+async function rmVendor(id){try{await FB.delField(id,"vendorId");say("Vendor access removed")}catch(e){say(fbErr(e))}}
+function adminV(){const t=S.tab;if(t=="setup"||t=="menu"||t=="notices")return vend();
+if(t=="requests"){const L=S.reqs.filter(q=>q.status=="pending");return `<h2>Requests</h2><p class="mu sub">Approve vendors and riders</p>`+(L.length?'<div class="grid">'+L.map(reqCard).join("")+"</div>":`<p class="mu">No pending requests.</p>`)}
+return `<h2>Users</h2><p class="mu sub">Roles and access</p><div class="grid">`+S.users.map(userCard).join("")+`</div>`}
+Z.forEach(z=>{if(!z.a)z.a=z.n=="Tarkwa-Nsuaem"?[...AREAS]:[]});
+render();
+</script><script type="module">
+import {initializeApp} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import {initializeAppCheck,ReCaptchaV3Provider} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app-check.js";
+import {getAuth,onAuthStateChanged,createUserWithEmailAndPassword,signInWithEmailAndPassword,signOut,updatePassword,updateEmail,reauthenticateWithCredential,EmailAuthProvider,deleteUser} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import {initializeFirestore,collection,doc,getDoc,getDocs,setDoc,updateDoc,deleteDoc,deleteField,onSnapshot,query,where,limit,writeBatch} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+const firebaseConfig = {
+  apiKey: "process.env.API_KEY",
+  authDomain: "superdeals-c4c20.firebaseapp.com",
+  projectId: "superdeals-c4c20",
+  storageBucket: "superdeals-c4c20.firebasestorage.app",
+  messagingSenderId: "302322930070",
+  appId: "1:302322930070:web:9dd99ae735738762bd4db7"
+};
+
+// App Check: paste your reCAPTCHA v3 SITE key here (it is public) to block requests that do not come from this app.
+const APP_CHECK_SITE_KEY = "";
+if(location.hostname=="localhost"||location.hostname=="127.0.0.1")self.FIREBASE_APPCHECK_DEBUG_TOKEN=true;
+const app=initializeApp(firebaseConfig);
+if(APP_CHECK_SITE_KEY)initializeAppCheck(app,{provider:new ReCaptchaV3Provider(APP_CHECK_SITE_KEY),isTokenAutoRefreshEnabled:true});
+const auth=getAuth(app),db=initializeFirestore(app,{ignoreUndefinedProperties:true});
+const em=p=>p+"@superchoice.app",clean=o=>JSON.parse(JSON.stringify(o));
+let onErrHook=()=>{};const onErr=e=>{console.error(e);onErrHook(e)};
+const FS={
+ auth,
+ async getUserDoc(uid){const s=await getDoc(doc(db,"users",uid));return s.exists()?s.data():null},
+ onAuth:cb=>onAuthStateChanged(auth,cb),
+ async signUp(p,pw,prof){const c=await createUserWithEmailAndPassword(auth,em(p),pw);await setDoc(doc(db,"users",c.user.uid),clean({...prof,created:Date.now()}));return c.user.uid},
+ async signIn(p,pw){await signInWithEmailAndPassword(auth,em(p),pw)},
+ signOutF:()=>signOut(auth),
+ async changePassword(cur,nw){const u=auth.currentUser;await reauthenticateWithCredential(u,EmailAuthProvider.credential(u.email,cur));await updatePassword(u,nw)},
+ subBranding:cb=>onSnapshot(doc(db,"public","branding"),s=>cb(s.exists()?s.data():null),onErr),
+ saveBranding:d=>setDoc(doc(db,"public","branding"),clean(d)),
+ subLoader:cb=>onSnapshot(doc(db,"public","loader"),s=>cb(s.exists()?s.data():null),onErr),
+ saveLoader:d=>setDoc(doc(db,"public","loader"),clean(d)),
+ saveAnn:a=>setDoc(doc(db,"announcements",String(a.id)),clean(a)),
+ delAnn:id=>deleteDoc(doc(db,"announcements",String(id))),
+ subSignup:cb=>onSnapshot(doc(db,"public","signup"),s=>cb(s.exists()?s.data():null),onErr),
+ saveSignup:d=>setDoc(doc(db,"public","signup"),clean(d)),
+ async hasBootstrap(){return (await getDoc(doc(db,"meta","bootstrap"))).exists()},
+ subAdmin:(uid,cb)=>onSnapshot(doc(db,"admins",uid),s=>cb(s.exists()),onErr),
+ async claimAdmin(uid){const b=writeBatch(db);b.set(doc(db,"meta","bootstrap"),{first:uid,at:Date.now()});b.set(doc(db,"admins",uid),{by:"bootstrap",at:Date.now()});await b.commit()},
+ addAdmin:(id,by)=>setDoc(doc(db,"admins",id),{by,at:Date.now()}),
+ removeAdmin:id=>deleteDoc(doc(db,"admins",id)),
+ async changePhone(pw,np){const u=auth.currentUser;await reauthenticateWithCredential(u,EmailAuthProvider.credential(u.email,pw));await updateEmail(u,em(np));await setDoc(doc(db,"users",u.uid),{phone:np},{merge:true})},
+ subUser:(uid,cb)=>onSnapshot(doc(db,"users",uid),s=>cb(s.exists()?s.data():null),onErr),
+ subMyReq:(uid,cb)=>onSnapshot(doc(db,"requests",uid),s=>cb(s.exists()?s.data():null),onErr),
+ setUser:(uid,d)=>setDoc(doc(db,"users",uid),clean(d),{merge:true}),
+ delField:(uid,f)=>updateDoc(doc(db,"users",uid),{[f]:deleteField()}),
+ createReq:(uid,d)=>setDoc(doc(db,"requests",uid),clean(d)),
+ setReq:(uid,d)=>setDoc(doc(db,"requests",uid),clean(d),{merge:true}),
+ async deleteMe(){const u=auth.currentUser;await deleteDoc(doc(db,"users",u.uid));await deleteUser(u)},
+ saveVendor:(id,v)=>setDoc(doc(db,"vendors",id),clean(v)),
+ saveSettings:d=>setDoc(doc(db,"settings","app"),clean(d)),
+ saveOrder:o=>setDoc(doc(db,"orders",String(o.id)),clean(o)),
+ seedVendors(list){const b=writeBatch(db);list.forEach(v=>b.set(doc(db,"vendors",v.id),clean(v)));return b.commit()},
+ subscribe(h,ctx){const err=e=>h.error&&h.error(e),subs=[],maps={};
+  const merge=()=>{const m=new Map();Object.values(maps).forEach(a=>a.forEach(o=>m.set(o.id,o)));h.orders([...m.values()])};
+  const oc=collection(db,"orders"),oq=(k,q)=>subs.push(onSnapshot(q,s=>{maps[k]=s.docs.map(d=>d.data());merge()},err));
+  subs.push(onSnapshot(collection(db,"vendors"),s=>h.vendors(s.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>(a.ord||0)-(b.ord||0)),s.metadata.fromCache),err));
+  subs.push(onSnapshot(collection(db,"announcements"),s=>h.anns(s.docs.map(d=>d.data())),err));
+  subs.push(onSnapshot(doc(db,"settings","app"),s=>h.settings(s.exists()?s.data():null,s.metadata.fromCache),err));
+  oq("c",query(oc,where("cid","==",ctx.uid)));
+  if(ctx.vendorId)oq("v",query(oc,where("vid","==",ctx.vendorId)));
+  if(ctx.rider){oq("r1",query(oc,where("st","==",2)));oq("r2",query(oc,where("rid","==",ctx.uid)))}
+  if(ctx.admin){oq("a",query(oc,limit(300)));
+   subs.push(onSnapshot(collection(db,"requests"),s=>h.reqs(s.docs.map(d=>({id:d.id,...d.data()}))),err));
+   subs.push(onSnapshot(collection(db,"admins"),s=>h.admins(s.docs.map(d=>d.id)),err));
+   subs.push(onSnapshot(collection(db,"users"),s=>h.users(s.docs.map(d=>({id:d.id,...d.data()}))),err))}
+  return subs.map(u=>()=>u())}
+};
+
+// ===================== SQL BACKUP (Supabase / PostgreSQL) =====================
+// Fill these two lines to switch the backup on. Leave them empty and the app uses Firestore only.
+const SUPABASE_URL = "";       // e.g. https://abcdxyz.supabase.co
+const SUPABASE_ANON_KEY = "";  // the "anon public" key from Supabase > Project Settings > API
+let SB=null;
+if(SUPABASE_URL&&SUPABASE_ANON_KEY){try{const m=await import("https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/+esm");SB=m.createClient(SUPABASE_URL,SUPABASE_ANON_KEY)}catch(e){console.warn("SQL backup could not load:",e)}}
+const pOf=e=>String(e||"").split("@")[0],Umap={};
+const need=r=>{if(r&&r.error)throw r.error;return r?r.data:null};
+async function sbPhone(){const r=await SB.auth.getSession(),u=r.data&&r.data.session&&r.data.session.user;return u&&u.email?pOf(u.email):null}
+async function phoneOf(uid){if(Umap[uid])return Umap[uid];const me=auth.currentUser;if(me&&me.uid===uid){const p=await sbPhone();if(p){Umap[uid]=p;return p}}const r=await SB.from("profiles").select("phone").eq("data->>uid",uid).limit(1),p=r.data&&r.data[0]&&r.data[0].phone;if(p)Umap[uid]=p;return p||null}
+const upM=async(t,rows,key)=>{for(let i=0;i<rows.length;i+=200)need(await SB.from(t).upsert(rows.slice(i,i+200),{onConflict:key}))};
+const up=async(t,row,key)=>{const{[key]:kv,...rest}=row,r=need(await SB.from(t).update(rest).eq(key,kv).select(key));if(!r||!r.length)need(await SB.from(t).insert(row))};
+const sqlOrder=o=>({id:o.id,cph:o.cph||"",vid:o.vid||null,rph:o.rph||null,st:o.st,data:o});
+async function putProfile(phone,patch,remove){const r=need(await SB.from("profiles").select("data").eq("phone",phone).maybeSingle()),d={...(r?r.data:{}),...patch};(remove||[]).forEach(k=>delete d[k]);await up("profiles",{phone,data:d},"phone")}
+const watch=(tables,fn)=>{let off=false;const run=()=>{if(!off)Promise.resolve().then(fn).catch(e=>console.warn(e))},ch=SB.channel("w"+Math.random().toString(36).slice(2));tables.forEach(t=>ch.on("postgres_changes",{event:"*",schema:"public",table:t},run));ch.subscribe();const iv=setInterval(run,20000);run();return()=>{off=true;clearInterval(iv);SB.removeChannel(ch)}};
+const pubDoc=(id,cb)=>watch(["public_docs"],async()=>{const r=await SB.from("public_docs").select("data").eq("id",id).maybeSingle();cb(r.data?r.data.data:null)});
+const SQ={
+ remember(uid,phone){if(uid&&phone)Umap[uid]=phone},
+ async ensureAuth(p,pw){const e=em(p);let r=await SB.auth.signInWithPassword({email:e,password:pw});if(r.error){const s=await SB.auth.signUp({email:e,password:pw});if(s.error)throw s.error;if(!s.data.session){r=await SB.auth.signInWithPassword({email:e,password:pw});if(r.error)throw r.error}}},
+ async signOutF(){await SB.auth.signOut()},
+ async syncSelf(uid){const d=await FS.getUserDoc(uid),ph=await sbPhone();if(!d||!ph)return;Umap[uid]=ph;await putProfile(ph,{uid,name:d.name,phone:d.phone,email:d.email||"",created:d.created||0})},
+ async changePassword(c,n){need(await SB.auth.updateUser({password:n}))},
+ async changePhone(pw,np){need(await SB.auth.updateUser({email:em(np)}));await SB.auth.refreshSession();const me=auth.currentUser;if(me)await SQ.syncSelf(me.uid)},
+ async deleteMe(){const ph=await sbPhone();if(ph){need(await SB.from("profiles").delete().eq("phone",ph));need(await SB.from("requests").delete().eq("phone",ph))}await SB.auth.signOut()},
+ async setUser(uid,d){const ph=await phoneOf(uid)||d.phone;if(!ph)throw new Error("That person has no SQL account yet");await putProfile(ph,{uid,...d})},
+ async delField(uid,f){const ph=await phoneOf(uid);if(!ph)throw new Error("That person has no SQL account yet");await putProfile(ph,{},[f])},
+ async createReq(uid,d){const ph=d.phone||await phoneOf(uid);await up("requests",{phone:ph,data:{...d,uid}},"phone")},
+ async setReq(uid,d){const r=await SB.from("requests").select("phone,data").eq("data->>uid",uid).limit(1),row=r.data&&r.data[0];if(!row)throw new Error("Request not found in SQL");await up("requests",{phone:row.phone,data:{...row.data,...d}},"phone")},
+ async hasBootstrap(){const r=await SB.from("meta").select("key").eq("key","bootstrap");return !!(r.data&&r.data.length)},
+ async claimAdmin(){need(await SB.rpc("claim_admin"))},
+ async addAdmin(id,by){const ph=await phoneOf(id);if(!ph)throw new Error("That person has no SQL account yet");await up("admins",{phone:ph,added_by:String(by||"")},"phone")},
+ async removeAdmin(id){const ph=await phoneOf(id);if(ph)need(await SB.from("admins").delete().eq("phone",ph))},
+ saveVendor:(id,v)=>up("vendors",{id,ord:v.ord||0,data:v},"id"),
+ seedVendors:list=>upM("vendors",list.map(v=>({id:v.id,ord:v.ord||0,data:v})),"id"),
+ saveSettings:d=>up("settings",{id:"app",data:d},"id"),
+ saveBranding:d=>up("public_docs",{id:"branding",data:d},"id"),
+ saveLoader:d=>up("public_docs",{id:"loader",data:d},"id"),
+ saveSignup:d=>up("public_docs",{id:"signup",data:d},"id"),
+ saveOrder:o=>up("orders",sqlOrder(o),"id"),
+ saveAnn:a=>up("announcements",{id:a.id,data:a},"id"),
+ async delAnn(id){need(await SB.from("announcements").delete().eq("id",id))},
+ subBranding:cb=>pubDoc("branding",cb),subLoader:cb=>pubDoc("loader",cb),subSignup:cb=>pubDoc("signup",cb),
+ subAdmin:(uid,cb)=>watch(["admins"],async()=>{const ph=await sbPhone();if(!ph)return cb(false);const r=await SB.from("admins").select("phone").eq("phone",ph);cb(!!(r.data&&r.data.length))}),
+ subUser:(uid,cb)=>watch(["profiles"],async()=>{const ph=await sbPhone();if(!ph)return;const r=await SB.from("profiles").select("data").eq("phone",ph).maybeSingle();cb(r.data?r.data.data:null)}),
+ subMyReq:(uid,cb)=>watch(["requests"],async()=>{const ph=await sbPhone();if(!ph)return;const r=await SB.from("requests").select("data").eq("phone",ph).maybeSingle();cb(r.data?r.data.data:null)}),
+ subscribe(h,ctx){const offs=[],bad=r=>{if(r.error){h.error&&h.error(r.error);return true}};
+  offs.push(watch(["vendors"],async()=>{const r=await SB.from("vendors").select("id,ord,data");if(bad(r))return;h.vendors((r.data||[]).map(x=>({id:x.id,...x.data})).sort((a,b)=>(a.ord||0)-(b.ord||0)),false)}));
+  offs.push(watch(["settings"],async()=>{const r=await SB.from("settings").select("data").eq("id","app").maybeSingle();if(bad(r))return;h.settings(r.data?r.data.data:null,false)}));
+  offs.push(watch(["orders"],async()=>{const r=await SB.from("orders").select("data");if(bad(r))return;h.orders((r.data||[]).map(x=>x.data))}));
+  offs.push(watch(["announcements"],async()=>{const r=await SB.from("announcements").select("data");if(bad(r))return;h.anns((r.data||[]).map(x=>x.data))}));
+  if(ctx.admin){
+   offs.push(watch(["requests"],async()=>{const r=await SB.from("requests").select("phone,data");if(bad(r))return;(r.data||[]).forEach(x=>SQ.remember(x.data.uid,x.phone));h.reqs((r.data||[]).map(x=>({id:x.data.uid||x.phone,...x.data})))}));
+   offs.push(watch(["profiles","admins"],async()=>{const[p,a]=await Promise.all([SB.from("profiles").select("phone,data"),SB.from("admins").select("phone")]);if(bad(p))return;(p.data||[]).forEach(x=>SQ.remember(x.data.uid,x.phone));h.users((p.data||[]).map(x=>({id:x.data.uid||x.phone,...x.data})));const ap=new Set((a.data||[]).map(x=>x.phone));h.admins((p.data||[]).filter(x=>ap.has(x.phone)&&x.data.uid).map(x=>x.data.uid))}))}
+  return offs.map(f=>()=>f())},
+ async copyFsToSql(){const all=async c=>(await getDocs(collection(db,c))).docs.map(d=>({id:d.id,...d.data()})),one=async(c,i)=>{const s=await getDoc(doc(db,c,i));return s.exists()?s.data():null},n={};
+  const vs=await all("vendors");await upM("vendors",vs.map(v=>({id:v.id,ord:v.ord||0,data:(({id,...r})=>({id:v.id,...r}))(v)})),"id");n.shops=vs.length;
+  const st=await one("settings","app");if(st)await SQ.saveSettings(st);
+  for(const i of["branding","loader","signup"]){const d=await one("public",i);if(d)await up("public_docs",{id:i,data:d},"id")}
+  const an=await all("announcements");await upM("announcements",an.map(a=>({id:a.id,data:a})),"id");n.announcements=an.length;
+  const us=await all("users");us.forEach(u=>SQ.remember(u.id,u.phone));await upM("profiles",us.filter(u=>u.phone).map(u=>({phone:u.phone,data:{...u,uid:u.id}})),"phone");n.people=us.length;
+  const rq=await all("requests");await upM("requests",rq.filter(q=>q.phone).map(q=>({phone:q.phone,data:{...q,uid:q.id}})),"phone");n.applications=rq.length;
+  const ad=await all("admins");const aph=ad.map(a=>(us.find(u=>u.id===a.id)||{}).phone).filter(Boolean);if(aph.length)await upM("admins",aph.map(p=>({phone:p,added_by:"copy"})),"phone");
+  const os=await all("orders");await upM("orders",os.map(o=>sqlOrder({...o,id:o.id==null?0:Number(o.id)})).filter(o=>o.id),"id");n.orders=os.length;
+  return Object.entries(n).map(([k,v])=>v+" "+k).join(", ")},
+ async copySqlToFs(){const n={},sel=async(t,c)=>need(await SB.from(t).select(c))||[],put=async(rows)=>{for(let i=0;i<rows.length;i+=400){const b=writeBatch(db);rows.slice(i,i+400).forEach(([ref,d,merge])=>merge?b.set(ref,clean(d),{merge:true}):b.set(ref,clean(d)));await b.commit()}};
+  const vs=await sel("vendors","id,data");await put(vs.map(x=>[doc(db,"vendors",x.id),x.data]));n.shops=vs.length;
+  const st=await sel("settings","id,data");await put(st.map(x=>[doc(db,"settings",x.id),x.data]));
+  const pd=await sel("public_docs","id,data");await put(pd.map(x=>[doc(db,"public",x.id),x.data]));
+  const an=await sel("announcements","id,data");await put(an.map(x=>[doc(db,"announcements",String(x.id)),x.data]));n.announcements=an.length;
+  const os=await sel("orders","id,data");await put(os.map(x=>[doc(db,"orders",String(x.id)),x.data]));n.orders=os.length;
+  const rq=await sel("requests","phone,data");await put(rq.filter(x=>x.data.uid).map(x=>{const{uid,...r}=x.data;return[doc(db,"requests",uid),r]}));n.applications=rq.length;
+  const pr=await sel("profiles","phone,data");await put(pr.filter(x=>x.data.uid).map(x=>{const{uid,...r}=x.data;return[doc(db,"users",uid),r,true]}));n.people=pr.length;
+  return Object.entries(n).map(([k,v])=>v+" "+k).join(", ")}
+};
+//ROUTER-START
+function buildRouter({FS,SQ,sqlOn,emit,getSess}){
+ let act="fs",mirrorErr="";
+ const quota=e=>!!e&&(e.code==="resource-exhausted"||/quota|resource.?exhausted/i.test(String((e&&e.message)||"")));
+ const toSql=why=>{if(act==="sql"||!sqlOn())return false;act="sql";emit("sql",why);return true};
+ const FB={...FS},bg=(p)=>Promise.resolve().then(p).then(()=>{mirrorErr=""},e=>{mirrorErr=String((e&&e.message)||e)});
+ const WRITE=["saveVendor","saveSettings","saveOrder","seedVendors","saveAnn","delAnn","saveBranding","saveLoader","saveSignup","setUser","delField","createReq","setReq","addAdmin","removeAdmin","claimAdmin"];
+ WRITE.forEach(m=>{FB[m]=async(...a)=>{
+  if(act==="sql")return SQ[m](...a);
+  let r;try{r=await FS[m](...a)}catch(e){if(quota(e)&&toSql("write"))return SQ[m](...a);throw e}
+  if(sqlOn())bg(()=>SQ[m](...a));return r}});
+ ["subBranding","subLoader","subSignup","subAdmin","subUser","subMyReq"].forEach(m=>{FB[m]=(...a)=>(act==="sql"?SQ:FS)[m](...a)});
+ FB.subscribe=(h,ctx)=>{const h2={...h,error:e=>{if(quota(e)&&(act==="sql"||toSql("read")))return;h.error&&h.error(e)},
+  users:l=>{if(SQ.remember)l.forEach(u=>SQ.remember(u.id,u.phone));h.users&&h.users(l)},reqs:l=>{if(SQ.remember)l.forEach(q=>SQ.remember(q.id,q.phone));h.reqs&&h.reqs(l)}};
+  return(act==="sql"?SQ:FS).subscribe(h2,ctx)};
+ FB.hasBootstrap=()=>act==="sql"?SQ.hasBootstrap():FS.hasBootstrap().catch(e=>{if(quota(e)&&toSql("read"))return SQ.hasBootstrap();throw e});
+ FB.signIn=async(p,pw)=>{await FS.signIn(p,pw);if(sqlOn())bg(async()=>{await SQ.ensureAuth(p,pw);await SQ.syncSelf(FS.auth.currentUser.uid)})};
+ FB.signUp=async(p,pw,prof)=>{let uid;try{uid=await FS.signUp(p,pw,prof)}catch(e){if(quota(e)&&sqlOn()&&FS.auth.currentUser){uid=FS.auth.currentUser.uid;toSql("write");await SQ.ensureAuth(p,pw);await SQ.setUser(uid,{...prof,created:Date.now()});return uid}throw e}
+  if(sqlOn())bg(async()=>{await SQ.ensureAuth(p,pw);await SQ.syncSelf(uid)});return uid};
+ FB.signOutF=async()=>{if(sqlOn())try{await SQ.signOutF()}catch(e){}return FS.signOutF()};
+ FB.changePassword=async(c,n)=>{await FS.changePassword(c,n);if(sqlOn())bg(()=>SQ.changePassword(c,n))};
+ FB.changePhone=async(pw,np)=>{await FS.changePhone(pw,np);if(sqlOn())bg(()=>SQ.changePhone(pw,np))};
+ FB.deleteMe=async()=>{if(sqlOn())try{await SQ.deleteMe()}catch(e){}return FS.deleteMe()};
+ FB.saveSettingsBoth=async d=>{const r=await Promise.allSettled([FS.saveSettings(d),sqlOn()?SQ.saveSettings(d):Promise.reject(new Error("SQL backup is not configured"))]);if(r[0].status==="rejected"&&r[1].status==="rejected")throw r[0].reason};
+ FB.force=m=>{if(m==="sql"&&sqlOn()&&act!=="sql"){act="sql";emit("sql","forced")}else if(m==="fs"&&act==="sql"){act="fs";emit("fs","forced")}};
+ FB.sqlStatus=async()=>({cfg:sqlOn(),act,sess:sqlOn()?await getSess():false,err:mirrorErr});
+ FB.sqlClaim=async()=>{if(!sqlOn())throw new Error("SQL backup is not configured");await SQ.claimAdmin()};
+ FB.copy=async dir=>{if(!sqlOn())throw new Error("SQL backup is not configured");return dir==="fs2sql"?SQ.copyFsToSql():SQ.copySqlToFs()};
+ FB.__onErr=e=>{if(quota(e))toSql("read")};
+ return FB}
+//ROUTER-END
+const FB=buildRouter({FS,SQ,sqlOn:()=>!!SB,emit:(act,why)=>window.dispatchEvent(new CustomEvent("db-switch",{detail:{act,why}})),getSess:async()=>{try{const r=await SB.auth.getSession();return !!(r.data&&r.data.session)}catch(e){return false}}});
+onErrHook=FB.__onErr;
+window.FB=FB;
+
+window.dispatchEvent(new Event("fb-ready"));
+</script>
+</body></html>
